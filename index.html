@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design MD 產生器</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+TC:wght@400;500&family=Noto+Serif+TC:wght@400;600&family=Playfair+Display:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://font.emtech.cc/css/GenYoGothicTC" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ui: {
+              bg:       'var(--ui-bg)',
+              surface:  'var(--ui-surface)',
+              surface2: 'var(--ui-surface2)',
+              border:   'var(--ui-border)',
+              border2:  'var(--ui-border2)',
+              text:     'var(--ui-text)',
+              text2:    'var(--ui-text2)',
+              text3:    'var(--ui-text3)',
+              primary:  'var(--ui-primary)',
+              success:  '#10B981',
+              danger:   '#EF4444',
+            }
+          },
+          height: {
+            header:  'var(--header-h)',
+            tabnav:  'var(--tabnav-h)',
+            tabfoot: 'var(--tabfoot-h)',
+          },
+          width:    { 'left-panel': 'var(--left-width)' },
+          minWidth: { 'left-panel': 'var(--left-width)' },
+          fontFamily: {
+            sans: ['TaipeiSansTC', 'Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+          },
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ── App Header ── -->
+  <header class="flex items-center justify-between h-header bg-ui-surface border-b border-ui-border px-[40px] gap-4 flex-shrink-0 z-10 rounded-t-[24px]">
+    <div class="flex items-center">
+      <img src="design-md-logo.svg" alt="DESIGN.md" height="28" style="height:28px;">
+    </div>
+  </header>
+
+  <!-- ── Toolbar ── -->
+  <div class="flex items-center gap-2.5 px-[20px] py-2 mt-[32px] mb-[12px] mx-[40px] flex-shrink-0 border border-ui-border rounded-[12px] bg-ui-surface2">
+    <select id="preset-select" class="select-input text-xs">
+      <option value="minimal">簡約白</option>
+      <option value="tech" selected>科技感</option>
+      <option value="warm">溫暖系</option>
+      <option value="corporate">專業商務</option>
+    </select>
+    <div class="flex items-center gap-4 ml-auto flex-shrink-0">
+      <button id="btn-reset" class="toolbar-action-btn">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+        重置
+      </button>
+      <div class="w-px h-4 bg-ui-border2 flex-shrink-0"></div>
+      <div id="btn-theme-toggle" class="theme-toggle-wrap" title="切換深色模式">
+        <svg class="theme-toggle-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <span class="theme-track"><span class="theme-thumb"></span></span>
+        <svg class="theme-toggle-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Main Layout ── -->
+  <main class="flex flex-1 overflow-hidden min-h-0 pb-[40px] px-[40px] gap-4">
+
+    <!-- ── Left Panel ── -->
+    <div class="w-left-panel flex-shrink-0 bg-ui-surface border border-ui-border rounded-[12px] flex flex-col overflow-hidden">
+
+      <!-- Tab Nav -->
+      <nav class="flex border-b border-ui-border px-1 overflow-x-auto flex-shrink-0 h-tabnav [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" role="tablist">
+        <button class="tab-btn active" data-tab="1" role="tab" aria-selected="true">
+          <span class="tab-num">1</span><span class="tab-name">品牌風格</span>
+        </button>
+        <button class="tab-btn" data-tab="2" role="tab">
+          <span class="tab-num">2</span><span class="tab-name">色彩系統</span>
+        </button>
+        <button class="tab-btn" data-tab="3" role="tab">
+          <span class="tab-num">3</span><span class="tab-name">字體與排版</span>
+        </button>
+        <button class="tab-btn" data-tab="4" role="tab">
+          <span class="tab-num">4</span><span class="tab-name">元件樣式</span>
+        </button>
+        <button class="tab-btn" data-tab="5" role="tab">
+          <span class="tab-num">5</span><span class="tab-name">使用規範</span>
+        </button>
+      </nav>
+
+      <!-- Tab Content -->
+      <div class="tab-content-wrapper flex-1 overflow-y-auto overflow-x-hidden p-5 min-h-0">
+
+        <!-- ── Section 1: Brand Style ── -->
+        <section class="tab-pane active" id="tab-1">
+          <div class="mb-8">
+            <h2 class="text-base font-semibold mb-1">品牌風格與氛圍</h2>
+            <p class="text-xs text-ui-text3">定義品牌的整體調性，影響所有後續設計決策。</p>
+          </div>
+
+          <div class="mb-8">
+            <label class="block text-[12px] font-medium mb-2">風格選擇</label>
+            <div class="flex gap-2 flex-wrap">
+              <label class="checkbox-item"><input type="radio" name="style" value="簡約"><span>簡約</span></label>
+              <label class="checkbox-item"><input type="radio" name="style" value="科技"><span>科技</span></label>
+              <label class="checkbox-item"><input type="radio" name="style" value="專業"><span>專業</span></label>
+              <label class="checkbox-item"><input type="radio" name="style" value="活潑"><span>活潑</span></label>
+              <label class="checkbox-item"><input type="radio" name="style" value="自訂"><span>自訂</span></label>
+            </div>
+
+            <div id="custom-tones-section" class="hidden mt-3">
+              <label class="block text-[12px] font-medium mb-2">
+                調性選擇 <span class="text-[11px] font-normal text-ui-text3 normal-case tracking-normal ml-1">可多選</span>
+              </label>
+              <div class="flex gap-2 flex-wrap">
+                <label class="checkbox-item"><input type="checkbox" name="custom-tone" value="現代感"><span>現代感</span></label>
+                <label class="checkbox-item"><input type="checkbox" name="custom-tone" value="高級感"><span>高級感</span></label>
+                <label class="checkbox-item"><input type="checkbox" name="custom-tone" value="親切感"><span>親切感</span></label>
+                <label class="checkbox-item"><input type="checkbox" name="custom-tone" value="信任感"><span>信任感</span></label>
+                <label class="checkbox-item"><input type="checkbox" name="custom-tone" value="創新感"><span>創新感</span></label>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-8">
+            <label class="block text-[12px] font-medium mb-2" for="brandPersonality">風格描述</label>
+            <textarea id="brandPersonality" class="text-input w-full resize-none" rows="3"
+              placeholder="例：簡潔而有力，讓使用者感到信任與專業"></textarea>
+          </div>
+        </section>
+
+        <!-- ── Section 2: Color System ── -->
+        <section class="tab-pane" id="tab-2">
+          <div class="mb-8">
+            <h2 class="text-base font-semibold mb-1">色彩系統</h2>
+            <p class="text-xs text-ui-text3">填入品牌核心顏色，自動產生色階與 WCAG 對比度檢查。</p>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3 mb-5">
+            <div>
+              <label class="block text-[12px] font-medium mb-1.5">主色 Primary</label>
+              <div class="flex items-center gap-2">
+                <input type="color" id="colorPrimary" class="color-picker" value="#2563eb">
+                <input type="text" id="hexPrimary" class="hex-input w-[100px]" value="#2563eb" maxlength="7" spellcheck="false">
+              </div>
+            </div>
+            <div>
+              <label class="block text-[12px] font-medium mb-1.5">強調色 Accent</label>
+              <div class="flex items-center gap-2">
+                <input type="color" id="colorAccent" class="color-picker" value="#f59e0b">
+                <input type="text" id="hexAccent" class="hex-input w-[100px]" value="#f59e0b" maxlength="7" spellcheck="false">
+              </div>
+            </div>
+            <div>
+              <label class="block text-[12px] font-medium mb-1.5">背景色 Background</label>
+              <div class="flex items-center gap-2">
+                <input type="color" id="colorBg" class="color-picker" value="#ffffff">
+                <input type="text" id="hexBg" class="hex-input w-[100px]" value="#ffffff" maxlength="7" spellcheck="false">
+              </div>
+            </div>
+            <div>
+              <label class="block text-[12px] font-medium mb-1.5">文字色 Text</label>
+              <div class="flex items-center gap-2">
+                <input type="color" id="colorText" class="color-picker" value="#1f2937">
+                <input type="text" id="hexText" class="hex-input w-[100px]" value="#1f2937" maxlength="7" spellcheck="false">
+              </div>
+            </div>
+          </div>
+
+          <!-- WCAG -->
+          <div class="bg-ui-surface2 border border-ui-border rounded-[6px] p-4 mb-4">
+            <h3 class="text-[11px] font-bold uppercase tracking-[.06em] text-ui-text2 mb-3">WCAG 對比度檢查</h3>
+            <div class="wcag-row">
+              <div class="wcag-swatches">
+                <div class="wcag-swatch" id="sw-primary"></div>
+                <span class="wcag-on">on</span>
+                <div class="wcag-swatch" id="sw-bg1"></div>
+              </div>
+              <div class="wcag-detail">
+                <span class="wcag-combo">主色 / 背景色</span>
+                <strong class="wcag-ratio" id="ratio-pb">—</strong>
+                <span class="wcag-badge" id="aa-pb">AA</span>
+                <span class="wcag-badge" id="aaa-pb">AAA</span>
+              </div>
+            </div>
+            <div class="wcag-row">
+              <div class="wcag-swatches">
+                <div class="wcag-swatch" id="sw-text"></div>
+                <span class="wcag-on">on</span>
+                <div class="wcag-swatch" id="sw-bg2"></div>
+              </div>
+              <div class="wcag-detail">
+                <span class="wcag-combo">文字色 / 背景色</span>
+                <strong class="wcag-ratio" id="ratio-tb">—</strong>
+                <span class="wcag-badge" id="aa-tb">AA</span>
+                <span class="wcag-badge" id="aaa-tb">AAA</span>
+              </div>
+            </div>
+            <div class="wcag-suggestion" id="wcag-suggestion"></div>
+          </div>
+
+          <!-- Variants -->
+          <div class="bg-ui-surface2 border border-ui-border rounded-[6px] p-4">
+            <h3 class="text-[11px] font-bold uppercase tracking-[.06em] text-ui-text2 mb-3">自動產生變體</h3>
+            <div class="flex items-center gap-2.5 mb-2">
+              <span class="text-[11px] font-semibold text-ui-text2 w-14 flex-shrink-0">Primary</span>
+              <div class="variant-swatches" id="variants-primary"></div>
+            </div>
+            <div class="flex items-center gap-2.5">
+              <span class="text-[11px] font-semibold text-ui-text2 w-14 flex-shrink-0">Accent</span>
+              <div class="variant-swatches" id="variants-accent"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── Section 3: Typography ── -->
+        <section class="tab-pane" id="tab-3">
+          <div class="mb-8">
+            <h2 class="text-base font-semibold mb-1">字體與排版</h2>
+            <p class="text-xs text-ui-text3">選擇字體組合，設定統一的字級系統。</p>
+          </div>
+
+          <div class="mb-8">
+            <label class="block text-[12px] font-medium mb-2">中文字體</label>
+            <select id="fontZh" class="select-input w-full">
+              <option value="Noto Sans TC" data-font="Noto Sans TC">思源黑體</option>
+              <option value="Noto Serif TC" data-font="Noto Serif TC">思源宋體</option>
+              <option value="GenYoGothic TC" data-font="GenYoGothic TC">源樣黑體</option>
+            </select>
+            <div class="mt-2 p-3 bg-ui-surface2 border border-ui-border rounded-[var(--radius-sm)] text-[20px] font-medium leading-[1.5]" id="preview-zh">品牌設計規範，傳達視覺個性。</div>
+          </div>
+
+          <div class="mb-8">
+            <label class="block text-[12px] font-medium mb-2">英文字體</label>
+            <select id="fontEn" class="select-input w-full">
+              <option value="Inter" data-font="Inter">Inter</option>
+              <option value="DM Sans" data-font="DM Sans">DM Sans</option>
+              <option value="Plus Jakarta Sans" data-font="Plus Jakarta Sans">Plus Jakarta Sans</option>
+              <option value="Playfair Display" data-font="Playfair Display">Playfair Display</option>
+              <option value="Fraunces" data-font="Fraunces">Fraunces</option>
+              <option value="Space Grotesk" data-font="Space Grotesk">Space Grotesk</option>
+            </select>
+            <div class="mt-2 p-3 bg-ui-surface2 border border-ui-border rounded-[var(--radius-sm)] text-[20px] font-medium leading-[1.5]" id="preview-en">Design System — Brand Identity</div>
+          </div>
+
+          <div class="mb-8">
+            <label class="block text-[12px] font-medium mb-2">
+              字級系統 <span class="text-[11px] font-normal text-ui-text3 normal-case tracking-normal ml-1">px，可修改</span>
+            </label>
+            <div class="flex flex-col gap-1.5">
+              <div class="flex items-center gap-2"><span class="text-[11px] font-mono font-semibold text-ui-primary w-8 flex-shrink-0">xs</span><input type="number" class="scale-input" id="size-xs" value="12" min="8" max="20"><span class="text-[11px] text-ui-text3">px</span><span class="text-[11px] text-ui-text2 flex-1">標籤</span></div>
+              <div class="flex items-center gap-2"><span class="text-[11px] font-mono font-semibold text-ui-primary w-8 flex-shrink-0">sm</span><input type="number" class="scale-input" id="size-sm" value="14" min="10" max="20"><span class="text-[11px] text-ui-text3">px</span><span class="text-[11px] text-ui-text2 flex-1">次要文字</span></div>
+              <div class="flex items-center gap-2"><span class="text-[11px] font-mono font-semibold text-ui-primary w-8 flex-shrink-0">base</span><input type="number" class="scale-input" id="size-base" value="16" min="12" max="24"><span class="text-[11px] text-ui-text3">px</span><span class="text-[11px] text-ui-text2 flex-1">內文</span></div>
+              <div class="flex items-center gap-2"><span class="text-[11px] font-mono font-semibold text-ui-primary w-8 flex-shrink-0">lg</span><input type="number" class="scale-input" id="size-lg" value="20" min="16" max="32"><span class="text-[11px] text-ui-text3">px</span><span class="text-[11px] text-ui-text2 flex-1">小標題</span></div>
+              <div class="flex items-center gap-2"><span class="text-[11px] font-mono font-semibold text-ui-primary w-8 flex-shrink-0">xl</span><input type="number" class="scale-input" id="size-xl" value="24" min="18" max="40"><span class="text-[11px] text-ui-text3">px</span><span class="text-[11px] text-ui-text2 flex-1">標題</span></div>
+              <div class="flex items-center gap-2"><span class="text-[11px] font-mono font-semibold text-ui-primary w-8 flex-shrink-0">2xl</span><input type="number" class="scale-input" id="size-2xl" value="32" min="24" max="56"><span class="text-[11px] text-ui-text3">px</span><span class="text-[11px] text-ui-text2 flex-1">大標題</span></div>
+              <div class="flex items-center gap-2"><span class="text-[11px] font-mono font-semibold text-ui-primary w-8 flex-shrink-0">3xl</span><input type="number" class="scale-input" id="size-3xl" value="48" min="32" max="80"><span class="text-[11px] text-ui-text3">px</span><span class="text-[11px] text-ui-text2 flex-1">Hero</span></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── Section 4: Component Styles + Shadow ── -->
+        <section class="tab-pane" id="tab-4">
+          <div class="mb-8">
+            <h2 class="text-base font-semibold mb-1">元件樣式</h2>
+            <p class="text-xs text-ui-text3">點擊樣式選項，上方預覽即時切換。</p>
+          </div>
+
+          <div class="flex flex-col gap-10">
+
+            <!-- 按鈕 -->
+            <div class="comp-block">
+              <label class="block text-[12px] font-medium mb-3">按鈕圓角</label>
+              <div class="btn-radius-options">
+                <label class="btn-radius-opt">
+                  <input type="radio" name="btnRadiusStyle" value="sharp">
+                  <div class="btn-radius-card">
+                    <div class="btn-radius-shape" style="border-radius:3px"></div>
+                    <span>方正</span>
+                  </div>
+                </label>
+                <label class="btn-radius-opt">
+                  <input type="radio" name="btnRadiusStyle" value="medium">
+                  <div class="btn-radius-card">
+                    <div class="btn-radius-shape" style="border-radius:10px"></div>
+                    <span>適中</span>
+                  </div>
+                </label>
+                <label class="btn-radius-opt">
+                  <input type="radio" name="btnRadiusStyle" value="rounded">
+                  <div class="btn-radius-card">
+                    <div class="btn-radius-shape" style="border-radius:999px"></div>
+                    <span>圓潤</span>
+                  </div>
+                </label>
+              </div>
+              <div class="comp-preview-sep">
+                <span class="comp-preview-label">效果預覽</span>
+              </div>
+              <div class="comp-live-area">
+                <div class="flex gap-3 items-center flex-wrap">
+                  <button class="preview-btn" id="preview-btn">主要按鈕</button>
+                  <button class="preview-btn-sec" id="preview-btn-sec">次要按鈕</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 輸入框 -->
+            <div class="comp-block">
+              <label class="block text-[12px] font-medium mb-3">輸入框樣式</label>
+              <div class="style-opts">
+                <label class="style-opt-card">
+                  <input type="radio" name="inputStyle" value="bordered">
+                  <div class="style-opt-thumb">
+                    <div class="mini-input-bordered"></div>
+                    <div class="mini-input-bordered"></div>
+                  </div>
+                  <span class="style-opt-name">有框線 Bordered</span>
+                  <span class="style-opt-desc">完整外框，結構清晰</span>
+                </label>
+                <label class="style-opt-card">
+                  <input type="radio" name="inputStyle" value="underline">
+                  <div class="style-opt-thumb">
+                    <div class="mini-input-underline"></div>
+                    <div class="mini-input-underline"></div>
+                  </div>
+                  <span class="style-opt-name">底線 Underline</span>
+                  <span class="style-opt-desc">輕量，偏 Material 風格</span>
+                </label>
+              </div>
+              <div class="comp-preview-sep">
+                <span class="comp-preview-label">效果預覽</span>
+              </div>
+              <div class="comp-live-area">
+                <div class="live-form">
+                  <div class="live-form-group">
+                    <label class="live-form-label">Email</label>
+                    <input class="live-input" id="live-input-1" type="text" placeholder="you@example.com" readonly>
+                  </div>
+                  <div class="live-form-group">
+                    <label class="live-form-label">Password</label>
+                    <input class="live-input" id="live-input-2" type="password" placeholder="••••••••" readonly>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 卡片 -->
+            <div class="comp-block">
+              <label class="block text-[12px] font-medium mb-3">卡片風格</label>
+              <div class="style-opts">
+                <label class="style-opt-card">
+                  <input type="radio" name="cardStyle" value="bordered">
+                  <div class="style-opt-thumb">
+                    <div class="mini-card mini-card-bordered">
+                      <div class="mini-card-line" style="width:44%"></div>
+                      <div class="mini-card-line mini-card-line-thin" style="width:76%"></div>
+                      <div class="mini-card-btn"></div>
+                    </div>
+                  </div>
+                  <span class="style-opt-name">Subtle Border</span>
+                  <span class="style-opt-desc">扁平，細邊框，無陰影</span>
+                </label>
+                <label class="style-opt-card">
+                  <input type="radio" name="cardStyle" value="elevated">
+                  <div class="style-opt-thumb">
+                    <div class="mini-card mini-card-elevated">
+                      <div class="mini-card-line" style="width:44%"></div>
+                      <div class="mini-card-line mini-card-line-thin" style="width:76%"></div>
+                      <div class="mini-card-btn"></div>
+                    </div>
+                  </div>
+                  <span class="style-opt-name">Elevated Shadow</span>
+                  <span class="style-opt-desc">浮起感，有陰影，明顯層級</span>
+                </label>
+              </div>
+              <div class="comp-preview-sep">
+                <span class="comp-preview-label">效果預覽</span>
+              </div>
+              <div class="comp-live-area">
+                <div class="live-card" id="live-card">
+                  <div class="live-card-title" id="live-card-title">設計元件卡片</div>
+                  <div class="live-card-body">這是卡片內文的預覽，展示資訊區塊的排版樣式與層次。</div>
+                  <div class="live-card-badge" id="live-card-badge">設計系統</div>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- flex-col -->
+
+          <!-- 陰影 -->
+          <div class="mt-8 pt-6 border-t border-ui-border">
+            <h3 class="text-[12px] font-medium mb-4">深度與陰影</h3>
+            <div class="mb-8">
+              <label class="block text-[12px] font-medium mb-2">陰影風格</label>
+              <div class="shadow-options">
+                <label class="shadow-opt" data-val="none">
+                  <input type="radio" name="shadowStyle" value="none">
+                  <div class="shadow-card s-none"><span>無</span></div>
+                </label>
+                <label class="shadow-opt" data-val="soft">
+                  <input type="radio" name="shadowStyle" value="soft" checked>
+                  <div class="shadow-card s-soft"><span>輕柔</span></div>
+                </label>
+                <label class="shadow-opt" data-val="medium">
+                  <input type="radio" name="shadowStyle" value="medium">
+                  <div class="shadow-card s-medium"><span>明顯</span></div>
+                </label>
+                <label class="shadow-opt" data-val="strong">
+                  <input type="radio" name="shadowStyle" value="strong">
+                  <div class="shadow-card s-strong"><span>強烈</span></div>
+                </label>
+              </div>
+            </div>
+
+            <div class="comp-preview-sep">
+              <span class="comp-preview-label">效果預覽</span>
+            </div>
+            <div class="p-6 bg-ui-surface2 border border-ui-border rounded-[6px] flex items-center justify-center">
+              <div class="shadow-demo-card" id="shadow-demo-card">
+                <div class="shadow-demo-dot" id="shadow-demo-dot"></div>
+                <div>
+                  <div class="text-[13px] font-semibold text-ui-text">陰影效果預覽</div>
+                  <div class="text-[11px] text-ui-text3 mt-0.5" id="shadow-demo-label">輕柔陰影</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── Section 5: Layout + Do's & Don'ts ── -->
+        <section class="tab-pane" id="tab-5">
+          <div class="mb-8">
+            <h2 class="text-base font-semibold mb-1">使用規範</h2>
+            <p class="text-xs text-ui-text3">定義間距系統、版面規格，以及設計使用原則。</p>
+          </div>
+
+          <div class="mb-8">
+            <label class="block text-[12px] font-medium mb-2">基礎間距單位</label>
+            <div class="flex gap-2.5 flex-wrap">
+              <label class="radio-item">
+                <input type="radio" name="spacingBase" value="4" id="spacing4">
+                <span class="text-[13px] flex gap-1.5 items-center">4px <em class="text-[11px] not-italic text-ui-text3">精細排版</em></span>
+              </label>
+              <label class="radio-item">
+                <input type="radio" name="spacingBase" value="8" id="spacing8" checked>
+                <span class="text-[13px] flex gap-1.5 items-center">8px <em class="text-[11px] not-italic text-ui-text3">通用（推薦）</em></span>
+              </label>
+            </div>
+            <div class="spacing-scale" id="spacing-scale"></div>
+          </div>
+
+          <div class="mb-8">
+            <label class="block text-[12px] font-medium mb-2" for="maxWidth">最大內容寬度</label>
+            <div class="flex items-center gap-2">
+              <input type="number" id="maxWidth" class="text-input w-36" value="1280" min="800" max="1920" step="80">
+              <span class="text-xs text-ui-text3">px</span>
+            </div>
+          </div>
+
+          <div class="mb-8">
+            <label class="block text-[12px] font-medium mb-2" for="gridCols">Grid 欄數</label>
+            <select id="gridCols" class="select-input w-56">
+              <option value="12" selected>12 欄（網頁標準）</option>
+              <option value="8">8 欄（平板）</option>
+              <option value="4">4 欄（手機）</option>
+            </select>
+          </div>
+
+          <div class="mt-8 pt-6 border-t border-ui-border">
+            <h3 class="text-[12px] font-medium mb-4">Do's & Don'ts</h3>
+            <p class="text-xs text-ui-text2 mb-4">寫下設計使用規範，幫助團隊保持一致性。</p>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <h3 class="text-[13px] font-bold mb-2.5 text-[#059669]">✅ Do's</h3>
+                <div id="dos-list" class="flex flex-col gap-1.5 mb-2"></div>
+                <button class="add-rule-btn do-btn w-full" id="add-do">＋ 新增</button>
+              </div>
+              <div>
+                <h3 class="text-[13px] font-bold mb-2.5 text-[#DC2626]">❌ Don'ts</h3>
+                <div id="donts-list" class="flex flex-col gap-1.5 mb-2"></div>
+                <button class="add-rule-btn dont-btn w-full" id="add-dont">＋ 新增</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div><!-- .tab-content-wrapper -->
+
+      <!-- Tab Footer -->
+      <div class="flex items-center justify-between px-4 h-tabfoot border-t border-ui-border flex-shrink-0">
+        <button class="nav-arrow" id="tab-prev" disabled>← 上一頁</button>
+        <span class="text-xs text-ui-text3 tabular-nums" id="tab-progress">1 / 5</span>
+        <button class="nav-arrow" id="tab-next">下一頁 →</button>
+      </div>
+
+    </div><!-- .panel-left -->
+
+    <!-- ── Right Panel ── -->
+    <div class="flex-1 flex flex-col bg-ui-surface overflow-hidden min-w-0 border border-ui-border rounded-[12px]">
+
+      <!-- Right Tab Bar -->
+      <div class="flex items-center h-tabnav px-4 border-b border-ui-border gap-1 flex-shrink-0 bg-ui-surface">
+        <div class="right-tab-switcher">
+          <button class="right-tab active" data-rtab="mockup">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            預覽
+          </button>
+          <button class="right-tab" data-rtab="preview">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 8 6.5 8 8 8.67 8 9.5 7.33 11 6.5 11zm3-4C8.67 7 8 6.33 8 5.5S8.67 4 9.5 4s1.5.67 1.5 1.5S10.33 7 9.5 7zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 4 14.5 4s1.5.67 1.5 1.5S15.33 7 14.5 7zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 8 17.5 8s1.5.67 1.5 1.5S18.33 11 17.5 11z"/></svg>
+            元件
+          </button>
+          <button class="right-tab" data-rtab="md">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            DESIGN.md
+          </button>
+        </div>
+        <div class="right-tab-actions ml-auto gap-2" id="md-actions">
+          <button class="out-btn secondary" id="btn-copy">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            複製
+          </button>
+          <button class="out-btn primary" id="btn-download">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            下載 .md
+          </button>
+        </div>
+      </div>
+
+      <!-- ── Mockup Panel ── -->
+      <div class="preview-panel" id="rtab-mockup">
+        <div class="web-mockup-wrap" id="web-mockup-root">
+          <!-- Navbar -->
+          <nav class="web-nav" id="mock-nav">
+            <div class="web-nav-brand">
+              <span class="web-nav-dot" id="mock-dot"></span>
+              <span class="web-nav-logo" id="mock-logo-text">品牌</span>
+            </div>
+            <div class="web-nav-links" id="mock-nav-links">
+              <span>產品</span><span>方案</span><span>文件</span>
+            </div>
+            <div class="web-nav-actions">
+              <span class="web-nav-ghost" id="mock-signin">登入</span>
+              <button class="web-cta-btn" id="mock-cta-btn">免費開始</button>
+            </div>
+          </nav>
+          <!-- Hero -->
+          <div class="web-hero" id="mock-hero">
+            <div class="web-hero-left">
+              <div class="web-hero-badge" id="mock-badge">
+                <span class="web-hero-badge-dot" id="mock-badge-dot"></span>
+                全新上線
+              </div>
+              <h1 class="web-hero-heading" id="mock-heading">重新定義你的<br><span id="mock-heading-accent">團隊協作方式</span></h1>
+              <p class="web-hero-sub" id="mock-sub">整合工作流程，提升團隊效率，讓每個決策都有數據支撐。</p>
+              <div class="web-hero-btns">
+                <button class="web-cta-btn web-cta-lg" id="mock-cta-lg">免費試用 →</button>
+                <button class="web-ghost-btn" id="mock-ghost-btn">觀看介紹</button>
+              </div>
+            </div>
+            <div class="web-hero-right">
+              <div class="web-hero-card" id="mock-card">
+                <div class="web-hero-card-bar" id="mock-card-bar"></div>
+                <div class="web-hero-card-line" style="width:60%"></div>
+                <div class="web-hero-card-line" style="width:80%"></div>
+                <div class="web-hero-card-stat">
+                  <span class="web-hero-stat-num" id="mock-stat">+127%</span>
+                  <span class="web-hero-stat-label" id="mock-stat-label">成長率</span>
+                </div>
+              </div>
+              <div class="web-hero-blob" id="mock-blob"></div>
+            </div>
+          </div>
+        </div>
+      </div><!-- .rtab-mockup -->
+
+      <!-- ── 元件 Panel ── -->
+      <div class="preview-panel" id="rtab-preview" style="display:none">
+
+        <div class="px-6 py-5 border-b border-ui-border bg-ui-surface mb-2">
+          <h3 class="text-sm font-bold mb-1">色彩系統</h3>
+          <p class="text-xs text-ui-text2 mb-4">完整色板，點擊任一色塊可複製 Hex 值</p>
+
+          <div class="mb-4">
+            <div class="flex items-baseline gap-2 mb-2">
+              <span class="text-xs font-bold">Primary</span>
+              <span class="text-[11px] font-mono text-ui-text3" id="prev-hex-primary">#2563EB</span>
+            </div>
+            <div class="color-scale-row" id="scale-primary"></div>
+          </div>
+
+          <div class="mb-4">
+            <div class="flex items-baseline gap-2 mb-2">
+              <span class="text-xs font-bold">Accent</span>
+              <span class="text-[11px] font-mono text-ui-text3" id="prev-hex-accent">#F59E0B</span>
+            </div>
+            <div class="color-scale-row" id="scale-accent"></div>
+          </div>
+
+          <div class="flex gap-2.5">
+            <div class="prev-neutral-card flex-1" id="prev-sw-bg">
+              <span class="prev-neutral-name">Background</span>
+              <span class="prev-neutral-hex" id="prev-hex-bg">#FFFFFF</span>
+            </div>
+            <div class="prev-neutral-card flex-1" id="prev-sw-text">
+              <span class="prev-neutral-name">Text</span>
+              <span class="prev-neutral-hex" id="prev-hex-text">#1F2937</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="px-6 py-5 border-b border-ui-border bg-ui-surface mb-2">
+          <h3 class="text-sm font-bold mb-4">字體系統</h3>
+          <div id="prev-typography"></div>
+        </div>
+
+        <div class="px-6 py-5 border-b border-ui-border bg-ui-surface mb-2">
+          <h3 class="text-sm font-bold mb-4">元件樣式</h3>
+          <div id="prev-components"></div>
+        </div>
+
+        <div class="px-6 py-5 border-b border-ui-border bg-ui-surface">
+          <h3 class="text-sm font-bold mb-4">間距 &amp; 陰影</h3>
+          <div id="prev-spacing-shadow"></div>
+        </div>
+
+      </div><!-- .preview-panel -->
+
+      <!-- ── MD Panel ── -->
+      <div class="md-panel" id="rtab-md">
+        <pre id="md-output" class="md-preview"></pre>
+      </div>
+
+    </div><!-- .panel-right -->
+
+  </main>
+
+  <script src="js/wcag.js"></script>
+  <script src="js/export.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

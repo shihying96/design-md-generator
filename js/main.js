@@ -4,22 +4,22 @@
 
 /* ── State ── */
 const state = {
-  styles: ['科技', '精準', '冷靜'],
-  brandPersonality: '極簡、工程精神，帶有低調質感與細節設計，呈現沉穩且可信賴的科技感',
-  colorPrimary: '#4C5FD5',
-  colorAccent:  '#2F3237',
-  colorBg:      '#FAFAFB',
-  colorText:    '#1A1D22',
+  styles: ['簡約'],
+  brandPersonality: '深炭黑與近白的精確對比，中性灰階構建可信任的視覺秩序',
+  colorPrimary: '#18181B',
+  colorAccent:  '#71717A',
+  colorBg:      '#FAFAFA',
+  colorText:    '#09090B',
   fontZh: 'Noto Sans TC',
   fontEn: 'Inter',
-  sizes: { xs: 12, sm: 14, base: 14, lg: 20, xl: 24, '2xl': 32, '3xl': 40 },
-  btnRadius:   3,
+  sizes: { xs: 12, sm: 14, base: 16, lg: 20, xl: 24, '2xl': 36, '3xl': 52 },
+  btnRadius:   10,
   inputStyle:  'bordered',
   cardStyle:   'bordered',
   spacingBase: 8,
-  maxWidth:    1383,
+  maxWidth:    1136,
   gridCols:    12,
-  shadowStyle: 'none',
+  shadowStyle: 'soft',
   dos:   ['', '', ''],
   donts: ['', '', '']
 };
@@ -49,13 +49,13 @@ const PRESETS = {
   tech: {
     styles: ['科技', '精準', '冷靜'],
     brandPersonality: '極簡、工程精神，帶有低調質感與細節設計，呈現沉穩且可信賴的科技感',
-    colorPrimary: '#4C5FD5', colorAccent: '#2F3237', colorBg: '#FAFAFB', colorText: '#1A1D22',
+    colorPrimary: '#2061F7', colorAccent: '#2F3237', colorBg: '#FAFAFB', colorText: '#1A1D22',
     fontZh: 'Noto Sans TC', fontEn: 'Inter',
     sizes: { xs: 12, sm: 14, base: 16, lg: 20, xl: 24, '2xl': 32, '3xl': 48 },
     btnRadius: 6, inputStyle: 'bordered', cardStyle: 'bordered',
     spacingBase: 8, maxWidth: 1280, gridCols: 12,
     shadowStyle: 'soft',
-    dos:   ['以 #4C5FD5 藍紫作為主色，搭配 #FAFAFB 極淺底色——建立清晰的品牌識別', '大量留白傳達精準感——空間即是設計語言', '文字層次依賴字重與大小，而非顏色變化'],
+    dos:   ['以 #2061F7 藍色作為主色，搭配 #FAFAFB 極淺底色——建立清晰的品牌識別', '大量留白傳達精準感——空間即是設計語言', '文字層次依賴字重與大小，而非顏色變化'],
     donts: ['不要使用過於鮮豔的配色組合——低調質感是品牌核心', '不要堆疊多層視覺效果——每個畫面只傳達一個核心訊息', '不要讓陰影過重——輕柔層次感才符合這套科技美學']
   },
   warm: {
@@ -123,6 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initExportButtons();
   initToolbar();
   applyPreset('tech');
+  document.body.classList.add('app-ready');
 });
 
 /* ── Custom Select Component ── */
@@ -380,8 +381,6 @@ function initTabs() {
     btn.addEventListener('click', () => switchTab(parseInt(btn.dataset.tab)));
   });
 
-  document.getElementById('tab-prev').addEventListener('click', () => switchTab(currentTab - 1));
-  document.getElementById('tab-next').addEventListener('click', () => switchTab(currentTab + 1));
 }
 
 function switchTab(n) {
@@ -396,9 +395,6 @@ function switchTab(n) {
     pane.classList.toggle('active', pane.id === `tab-${n}`);
   });
 
-  document.getElementById('tab-prev').disabled = n === 1;
-  document.getElementById('tab-next').disabled = n === TOTAL_TABS;
-  document.getElementById('tab-progress').textContent = `${n} / ${TOTAL_TABS}`;
 }
 
 /* ── Color Pickers ── */
@@ -679,7 +675,7 @@ function renderRuleList(type) {
 
     const removeBtn = document.createElement('button');
     removeBtn.className = 'rule-remove';
-    removeBtn.innerHTML = '×';
+    removeBtn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
     removeBtn.title = '移除';
     removeBtn.addEventListener('click', () => {
       state[type].splice(idx, 1);
@@ -706,7 +702,8 @@ function applyPreset(name) {
   if (!p) return;
   currentPresetName = name;
 
-  Object.assign(state, JSON.parse(JSON.stringify(p)));
+  const { styles: _ignored, ...rest } = JSON.parse(JSON.stringify(p));
+  Object.assign(state, rest);
 
   // Sync color pickers & hex inputs
   [['colorPrimary','hexPrimary'], ['colorAccent','hexAccent'], ['colorBg','hexBg'], ['colorText','hexText']].forEach(([pickId, hexId]) => {
@@ -714,13 +711,6 @@ function applyPreset(name) {
     document.getElementById(pickId).value = state[key];
     document.getElementById(hexId).value  = state[key];
   });
-
-  // 風格單選：選中第一個匹配的 radio，隱藏自訂區塊
-  const firstStyle = state.styles[0] || '';
-  const matchRb = document.querySelector(`input[name="style"][value="${firstStyle}"]`);
-  document.querySelectorAll('input[name="style"]').forEach(rb => { rb.checked = false; });
-  if (matchRb) matchRb.checked = true;
-  document.getElementById('custom-tones-section').classList.add('hidden');
 
   // Text
   document.getElementById('brandPersonality').value = state.brandPersonality;
@@ -813,9 +803,15 @@ function showToast(msg) {
 /* ── Sync UI Primary Color ── */
 function syncUiPrimary() {
   const hex = state.colorPrimary;
+  const v   = generateVariants(hex);
   const root = document.documentElement;
-  root.style.setProperty('--ui-primary', hex);
-  root.style.setProperty('--ui-primary-hover', generateVariants(hex).hover);
+  root.style.setProperty('--ui-primary',       hex);
+  root.style.setProperty('--ui-primary-hover', v.hover);
+  root.style.setProperty('--ui-active-light', v.light);
+  const [lh, ls, ll] = hexToHsl(v.light);
+  root.style.setProperty('--ui-active-light-border', hslToHex(lh, ls, Math.max(ll - 12, 50)));
+  const star = document.getElementById('logo-star');
+  if (star) star.setAttribute('fill', hex);
 }
 
 /* ── Render All ── */

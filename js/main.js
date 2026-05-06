@@ -6,13 +6,17 @@
 const state = {
   styles: ['簡約'],
   brandPersonality: '深炭黑與近白的精確對比，中性灰階構建可信任的視覺秩序',
-  colorPrimary: '#18181B',
-  colorAccent:  '#71717A',
-  colorBg:      '#FAFAFA',
-  colorText:    '#09090B',
+  colorPrimary:   '#18181B',
+  colorSecondary: '#3F3F46',
+  colorAccent:    '#71717A',
+  colorBg:        '#FAFAFA',
+  colorText:      '#09090B',
   fontZh: 'Noto Sans TC',
   fontEn: 'Inter',
   sizes: { xs: 12, sm: 14, base: 16, lg: 20, xl: 24, '2xl': 36, '3xl': 52 },
+  baseFontSize: 16,
+  typeScale:    1.2,
+  sizeOverrides: {},
   btnRadius:   10,
   inputStyle:  'bordered',
   cardStyle:   'bordered',
@@ -29,7 +33,8 @@ const PRESET_COLOR_LABELS = {
   minimal:   '黑白',
   tech:      '藍灰',
   warm:      '暖金',
-  corporate: '藏藍金'
+  corporate: '藏藍金',
+  forest:    '林間'
 };
 
 /* ── Presets ── */
@@ -37,9 +42,10 @@ const PRESETS = {
   minimal: {
     styles: ['簡約', '專業'],
     brandPersonality: '深炭黑與近白的精確對比，中性灰階構建可信任的視覺秩序',
-    colorPrimary: '#18181B', colorAccent: '#71717A', colorBg: '#FAFAFA', colorText: '#09090B',
+    colorPrimary: '#18181B', colorSecondary: '#3F3F46', colorAccent: '#71717A', colorBg: '#FAFAFA', colorText: '#09090B',
     fontZh: 'Noto Sans TC', fontEn: 'Inter',
     sizes: { xs: 12, sm: 14, base: 16, lg: 20, xl: 24, '2xl': 36, '3xl': 52 },
+    baseFontSize: 16, typeScale: 1.2, sizeOverrides: {},
     btnRadius: 10, inputStyle: 'bordered', cardStyle: 'bordered',
     spacingBase: 8, maxWidth: 1136, gridCols: 12,
     shadowStyle: 'soft',
@@ -49,9 +55,10 @@ const PRESETS = {
   tech: {
     styles: ['科技', '精準', '冷靜'],
     brandPersonality: '極簡、工程精神，帶有低調質感與細節設計，呈現沉穩且可信賴的科技感',
-    colorPrimary: '#2061F7', colorAccent: '#2F3237', colorBg: '#FAFAFB', colorText: '#1A1D22',
+    colorPrimary: '#2061F7', colorSecondary: '#0EA5E9', colorAccent: '#2F3237', colorBg: '#FAFAFB', colorText: '#1A1D22',
     fontZh: 'Noto Sans TC', fontEn: 'Inter',
     sizes: { xs: 12, sm: 14, base: 16, lg: 20, xl: 24, '2xl': 32, '3xl': 48 },
+    baseFontSize: 16, typeScale: 1.2, sizeOverrides: {},
     btnRadius: 6, inputStyle: 'bordered', cardStyle: 'bordered',
     spacingBase: 8, maxWidth: 1280, gridCols: 12,
     shadowStyle: 'soft',
@@ -61,9 +68,10 @@ const PRESETS = {
   warm: {
     styles: ['溫暖', '活潑'],
     brandPersonality: '暖色工藝美學，用玩味互動與命名色票讓產品充滿人情味',
-    colorPrimary: '#fbbd41', colorAccent: '#078a52', colorBg: '#faf9f7', colorText: '#000000',
+    colorPrimary: '#fbbd41', colorSecondary: '#F97316', colorAccent: '#078a52', colorBg: '#faf9f7', colorText: '#000000',
     fontZh: 'Noto Sans TC', fontEn: 'DM Sans',
     sizes: { xs: 12, sm: 16, base: 18, lg: 20, xl: 32, '2xl': 44, '3xl': 60 },
+    baseFontSize: 18, typeScale: 1.2, sizeOverrides: {},
     btnRadius: 20, inputStyle: 'bordered', cardStyle: 'elevated',
     spacingBase: 8, maxWidth: 1280, gridCols: 12,
     shadowStyle: 'medium',
@@ -73,14 +81,28 @@ const PRESETS = {
   corporate: {
     styles: ['專業', '簡約'],
     brandPersonality: '沉穩、可信賴，值得長期合作的夥伴',
-    colorPrimary: '#1e3a5f', colorAccent: '#c5922e', colorBg: '#f8f9fa', colorText: '#1a1a2e',
+    colorPrimary: '#1e3a5f', colorSecondary: '#2D6A9F', colorAccent: '#c5922e', colorBg: '#f8f9fa', colorText: '#1a1a2e',
     fontZh: 'Noto Serif TC', fontEn: 'Plus Jakarta Sans',
     sizes: { xs: 12, sm: 14, base: 16, lg: 18, xl: 22, '2xl': 28, '3xl': 40 },
+    baseFontSize: 16, typeScale: 1.2, sizeOverrides: {},
     btnRadius: 3, inputStyle: 'bordered', cardStyle: 'elevated',
     spacingBase: 8, maxWidth: 1280, gridCols: 12,
     shadowStyle: 'none',
     dos:   ['資訊架構要清晰，層次分明', '保持色彩使用的保守與一致', '按鈕文字要明確說明行動'],
     donts: ['不要使用過於鮮艷或前衛的配色', '不要讓排版看起來雜亂', '不要省略重要的資訊說明']
+  },
+  forest: {
+    styles: ['自然', '沉穩'],
+    brandPersonality: '深邃林綠建立品牌信任，純白底色帶來清爽呼吸感，傳遞永續與踏實的品牌價值',
+    colorPrimary: '#2C3B31', colorSecondary: '#FFFFFF', colorAccent: '#7A9E7E', colorBg: '#FFFFFF', colorText: '#111827',
+    fontZh: 'Noto Sans TC', fontEn: 'Plus Jakarta Sans',
+    sizes: { xs: 11, sm: 13, base: 16, lg: 19, xl: 23, '2xl': 28, '3xl': 33 },
+    baseFontSize: 16, typeScale: 1.2, sizeOverrides: {},
+    btnRadius: 6, inputStyle: 'bordered', cardStyle: 'elevated',
+    spacingBase: 8, maxWidth: 1280, gridCols: 12,
+    shadowStyle: 'soft',
+    dos:   ['以 #2C3B31 深森林綠作為主色——展現品牌的自然感與可靠性', '純白底色是唯一背景色——保持乾淨呼吸感，避免使用米白或米灰', '以 #7A9E7E 鼠尾草綠作為點綴——少量使用於 tag、badge、hover 狀態'],
+    donts: ['不要引入暖色調（棕、橘、黃）——冷靜的自然綠系是品牌核心', '不要讓主色大面積出現在文字區——深綠適合作為按鈕、強調元素，而非大段文字色', '不要使用純黑文字——#111827 帶有微藍的深色更符合品牌溫度']
   }
 };
 
@@ -94,10 +116,12 @@ let currentPresetName = 'tech';
 function isStateDirty() {
   if (!currentPresetName || !PRESETS[currentPresetName]) return false;
   const preset = PRESETS[currentPresetName];
-  const keys = ['colorPrimary','colorAccent','colorBg','colorText','fontZh','fontEn',
-    'btnRadius','inputStyle','cardStyle','spacingBase','maxWidth','gridCols','shadowStyle'];
+  const keys = ['colorPrimary','colorSecondary','colorAccent','colorBg','colorText','fontZh','fontEn',
+    'btnRadius','inputStyle','cardStyle','spacingBase','maxWidth','gridCols','shadowStyle',
+    'baseFontSize','typeScale'];
   if (keys.some(k => state[k] !== preset[k])) return true;
-  return JSON.stringify(state.sizes) !== JSON.stringify(preset.sizes);
+  if (JSON.stringify(state.sizes) !== JSON.stringify(preset.sizes)) return true;
+  return JSON.stringify(state.sizeOverrides) !== JSON.stringify(preset.sizeOverrides);
 }
 
 function syncDirtyIndicator() {
@@ -111,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initTabs();
   initRightTabs();
   initColorPickers();
-  initSizeInputs();
+  initTypeScale();
   initBtnRadiusStyle();
   initInputStyle();
   initCardStyle();
@@ -123,6 +147,21 @@ document.addEventListener('DOMContentLoaded', () => {
   initExportButtons();
   initToolbar();
   applyPreset('tech');
+
+  // 防止自訂選項卡觸發瀏覽器 focus-scroll
+  // 瀏覽器 scroll-into-view 是同步的，早於 focus 事件；
+  // 解法：click 時儲存 scrollTop，於 microtask（同步 scroll 結束後）還原
+  document.querySelectorAll('.style-opt-card, .btn-radius-opt, .shadow-opt, .checkbox-item, .radio-item')
+    .forEach(el => {
+      el.addEventListener('mousedown', e => e.preventDefault());
+      el.addEventListener('click', () => {
+        const container = el.closest('.tab-content-wrapper');
+        if (!container) return;
+        const saved = container.scrollTop;
+        Promise.resolve().then(() => { container.scrollTop = saved; });
+      });
+    });
+
   document.body.classList.add('app-ready');
 });
 
@@ -369,9 +408,9 @@ function initToolbar() {
     switchTab(1);
   });
 
-  // 深淺色切換
+  // 深淺色切換（只影響預覽區）
   document.getElementById('btn-theme-toggle').addEventListener('click', () => {
-    document.documentElement.classList.toggle('dark');
+    document.documentElement.classList.toggle('preview-dark');
   });
 }
 
@@ -400,10 +439,11 @@ function switchTab(n) {
 /* ── Color Pickers ── */
 function initColorPickers() {
   const pairs = [
-    ['colorPrimary', 'hexPrimary', 'colorPrimary'],
-    ['colorAccent',  'hexAccent',  'colorAccent'],
-    ['colorBg',      'hexBg',      'colorBg'],
-    ['colorText',    'hexText',    'colorText']
+    ['colorPrimary',   'hexPrimary',   'colorPrimary'],
+    ['colorSecondary', 'hexSecondary', 'colorSecondary'],
+    ['colorAccent',    'hexAccent',    'colorAccent'],
+    ['colorBg',        'hexBg',        'colorBg'],
+    ['colorText',      'hexText',      'colorText']
   ];
 
   pairs.forEach(([pickerId, hexId, stateKey]) => {
@@ -414,6 +454,18 @@ function initColorPickers() {
       hexIn.value = picker.value;
       state[stateKey] = picker.value;
       renderAll();
+    });
+
+    hexIn.addEventListener('paste', e => {
+      e.preventDefault();
+      const raw = (e.clipboardData || window.clipboardData).getData('text').trim();
+      const v = raw.startsWith('#') ? raw : '#' + raw;
+      if (isValidHex(v)) {
+        hexIn.value = v.toUpperCase();
+        picker.value = v;
+        state[stateKey] = v;
+        renderAll();
+      }
     });
 
     hexIn.addEventListener('input', () => {
@@ -482,16 +534,156 @@ function initColorPickers() {
   });
 }
 
-/* ── Size Inputs ── */
-function initSizeInputs() {
-  ['xs','sm','base','lg','xl','2xl','3xl'].forEach(token => {
-    const input = document.getElementById(`size-${token}`);
-    if (!input) return;
+/* ── Type Scale ── */
+const TS_TOKENS = ['xs','sm','base','lg','xl','2xl','3xl'];
+const TS_POSITIONS = { xs:-2, sm:-1, base:0, lg:1, xl:2, '2xl':3, '3xl':4 };
+const TS_LABELS = { xs:'標籤', sm:'次要文字', base:'內文', lg:'小標題', xl:'標題', '2xl':'大標題', '3xl':'Hero' };
+
+function computeTypeScaleSizes(basePx, scale) {
+  const result = {};
+  TS_TOKENS.forEach(t => {
+    result[t] = Math.round(basePx * Math.pow(scale, TS_POSITIONS[t]));
+  });
+  return result;
+}
+
+function renderTypeScaleList() {
+  const list = document.getElementById('type-scale-list');
+  if (!list) return;
+  const computed = computeTypeScaleSizes(state.baseFontSize, state.typeScale);
+  const resetBtn = document.getElementById('ts-reset');
+  const hasAnyOverride = Object.keys(state.sizeOverrides).length > 0;
+  if (resetBtn) resetBtn.classList.toggle('hidden', !hasAnyOverride);
+
+  // Pre-compute current values & find violations
+  const currentVals = {};
+  TS_TOKENS.forEach(t => {
+    currentVals[t] = t in state.sizeOverrides ? state.sizeOverrides[t] : computed[t];
+  });
+  const violations = new Set();
+  for (let i = 1; i < TS_TOKENS.length; i++) {
+    const prev = TS_TOKENS[i - 1], cur = TS_TOKENS[i];
+    if (currentVals[cur] < currentVals[prev]) {
+      violations.add(prev);
+      violations.add(cur);
+    }
+  }
+
+  list.innerHTML = '';
+
+  TS_TOKENS.forEach(token => {
+    const computedVal = computed[token];
+    const isOverridden = token in state.sizeOverrides;
+    const currentVal = currentVals[token];
+    const isViolating = violations.has(token);
+
+    const row = document.createElement('div');
+    row.className = 'ts-row';
+
+    const tokenSpan = document.createElement('span');
+    tokenSpan.className = 'ts-token';
+    tokenSpan.textContent = token;
+
+    const computedSpan = document.createElement('span');
+    computedSpan.className = 'ts-computed';
+    computedSpan.title = `比例計算值：${computedVal}px`;
+    computedSpan.textContent = isOverridden ? `(${computedVal})` : '';
+
+    const input = document.createElement('input');
+    input.type = 'number';
+    input.className = 'scale-input ts-scale-input' + (isOverridden ? ' is-overridden' : '') + (isViolating ? ' is-error' : '');
+    input.value = currentVal;
+    input.min = 6;
+    input.max = 120;
+
     input.addEventListener('input', () => {
-      state.sizes[token] = parseInt(input.value) || state.sizes[token];
+      const val = parseInt(input.value);
+      if (isNaN(val)) return;
+      if (val === computedVal) {
+        delete state.sizeOverrides[token];
+      } else {
+        state.sizeOverrides[token] = val;
+      }
+      state.sizes[token] = val;
+      renderTypeScaleList();
+      renderMd();
+    });
+
+    const badge = document.createElement('span');
+    badge.className = 'ts-badge';
+    badge.textContent = '已微調';
+    badge.style.display = isOverridden ? 'inline' : 'none';
+
+    const desc = document.createElement('span');
+    desc.className = 'ts-desc';
+    desc.textContent = TS_LABELS[token];
+
+    row.appendChild(tokenSpan);
+    row.appendChild(computedSpan);
+    row.appendChild(input);
+    row.appendChild(badge);
+    row.appendChild(desc);
+    list.appendChild(row);
+  });
+
+  // Error message at bottom
+  if (violations.size > 0) {
+    const err = document.createElement('p');
+    err.className = 'ts-err-msg';
+    err.textContent = '字級需由小到大遞增';
+    list.appendChild(err);
+  }
+}
+
+function initTypeScale() {
+  const baseInput = document.getElementById('ts-base');
+  const resetBtn = document.getElementById('ts-reset');
+
+  if (baseInput) {
+    baseInput.value = state.baseFontSize;
+    baseInput.addEventListener('input', () => {
+      const val = parseInt(baseInput.value);
+      if (!val || val < 10) return;
+      state.baseFontSize = val;
+      // recompute sizes, keep overrides
+      const computed = computeTypeScaleSizes(state.baseFontSize, state.typeScale);
+      TS_TOKENS.forEach(t => {
+        state.sizes[t] = t in state.sizeOverrides ? state.sizeOverrides[t] : computed[t];
+      });
+      renderTypeScaleList();
+      renderMd();
+    });
+  }
+
+  document.querySelectorAll('input[name="tsRatio"]').forEach(radio => {
+    if (parseFloat(radio.value) === state.typeScale) radio.checked = true;
+    radio.addEventListener('change', () => {
+      state.typeScale = parseFloat(radio.value);
+      const computed = computeTypeScaleSizes(state.baseFontSize, state.typeScale);
+      TS_TOKENS.forEach(t => {
+        state.sizes[t] = t in state.sizeOverrides ? state.sizeOverrides[t] : computed[t];
+      });
+      renderTypeScaleList();
       renderMd();
     });
   });
+
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      state.sizeOverrides = {};
+      const computed = computeTypeScaleSizes(state.baseFontSize, state.typeScale);
+      TS_TOKENS.forEach(t => { state.sizes[t] = computed[t]; });
+      renderTypeScaleList();
+      renderMd();
+    });
+  }
+
+  // Initial render
+  const computed = computeTypeScaleSizes(state.baseFontSize, state.typeScale);
+  TS_TOKENS.forEach(t => {
+    state.sizes[t] = t in state.sizeOverrides ? state.sizeOverrides[t] : computed[t];
+  });
+  renderTypeScaleList();
 }
 
 /* ── Button Radius Style ── */
@@ -502,8 +694,8 @@ function initBtnRadiusStyle() {
   document.querySelectorAll('input[name="btnRadiusStyle"]').forEach(radio => {
     radio.addEventListener('change', () => {
       state.btnRadius = BTN_RADIUS_MAP[radio.value] ?? 10;
-      const btn = document.getElementById('preview-btn');
-      if (btn) btn.style.borderRadius = `${state.btnRadius}px`;
+      renderComponentPreviews();
+      renderPreviewWebMockup();
       renderMd();
       syncDirtyIndicator();
     });
@@ -527,6 +719,7 @@ function initInputStyle() {
     radio.addEventListener('change', () => {
       state.inputStyle = radio.value;
       updateLiveInputPreview();
+      renderPreviewWebMockup();
       renderMd();
       syncDirtyIndicator();
     });
@@ -548,6 +741,7 @@ function initCardStyle() {
     radio.addEventListener('change', () => {
       state.cardStyle = radio.value;
       updateLiveCardPreview();
+      renderPreviewWebMockup();
       renderMd();
       syncDirtyIndicator();
     });
@@ -613,6 +807,7 @@ function initShadow() {
     radio.addEventListener('change', () => {
       state.shadowStyle = radio.value;
       updateShadowPreview();
+      renderPreviewWebMockup();
       renderMd();
     });
   });
@@ -706,7 +901,7 @@ function applyPreset(name) {
   Object.assign(state, rest);
 
   // Sync color pickers & hex inputs
-  [['colorPrimary','hexPrimary'], ['colorAccent','hexAccent'], ['colorBg','hexBg'], ['colorText','hexText']].forEach(([pickId, hexId]) => {
+  [['colorPrimary','hexPrimary'], ['colorSecondary','hexSecondary'], ['colorAccent','hexAccent'], ['colorBg','hexBg'], ['colorText','hexText']].forEach(([pickId, hexId]) => {
     const key = pickId;
     document.getElementById(pickId).value = state[key];
     document.getElementById(hexId).value  = state[key];
@@ -725,11 +920,17 @@ function applyPreset(name) {
   document.getElementById('preview-zh').style.fontFamily = `'${state.fontZh}',serif`;
   document.getElementById('preview-en').style.fontFamily  = `'${state.fontEn}',sans-serif`;
 
-  // Sizes
-  ['xs','sm','base','lg','xl','2xl','3xl'].forEach(t => {
-    const el = document.getElementById(`size-${t}`);
-    if (el) el.value = state.sizes[t];
+  // Type Scale
+  const tsBaseEl = document.getElementById('ts-base');
+  if (tsBaseEl) tsBaseEl.value = state.baseFontSize;
+  const tsRatioEl = document.querySelector(`input[name="tsRatio"][value="${state.typeScale}"]`);
+  if (tsRatioEl) tsRatioEl.checked = true;
+  // Recompute sizes respecting overrides
+  const tsComputed = computeTypeScaleSizes(state.baseFontSize, state.typeScale);
+  TS_TOKENS.forEach(t => {
+    state.sizes[t] = t in state.sizeOverrides ? state.sizeOverrides[t] : tsComputed[t];
   });
+  renderTypeScaleList();
 
   // Button radius radio
   syncBtnRadiusRadio();
@@ -775,16 +976,117 @@ function initExportButtons() {
   });
 
   document.getElementById('btn-download').addEventListener('click', () => {
-    const text = document.getElementById('md-output').textContent;
-    const blob = new Blob([text], { type: 'text/markdown;charset=utf-8' });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement('a');
-    a.href     = url;
-    a.download = 'DESIGN.md';
-    a.click();
-    URL.revokeObjectURL(url);
-    showToast('⬇️ DESIGN.md 下載中...');
+    const doDownload = () => {
+      const text = document.getElementById('md-output').textContent;
+      const blob = new Blob([text], { type: 'text/markdown;charset=utf-8' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href     = url;
+      a.download = 'DESIGN.md';
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('⬇️ DESIGN.md 下載中...');
+    };
+
+    if (hasSizeOrderViolation()) {
+      showSizeWarningModal(doDownload);
+    } else {
+      doDownload();
+    }
   });
+}
+
+/* ── Size Order Validation ── */
+function hasSizeOrderViolation() {
+  const tokens = TS_TOKENS;
+  for (let i = 1; i < tokens.length; i++) {
+    if (state.sizes[tokens[i]] < state.sizes[tokens[i - 1]]) return true;
+  }
+  return false;
+}
+
+/* ── Size Warning Modal ── */
+function showSizeWarningModal(onConfirm) {
+  // Prevent duplicate
+  if (document.getElementById('size-warn-modal')) return;
+
+  const overlay = document.createElement('div');
+  overlay.id = 'size-warn-modal';
+  overlay.style.cssText = [
+    'position:fixed', 'inset:0', 'z-index:10000',
+    'display:flex', 'align-items:center', 'justify-content:center',
+    'background:rgba(0,0,0,.35)', 'backdrop-filter:blur(2px)',
+    'animation:fadeIn .15s ease'
+  ].join(';');
+
+  const modal = document.createElement('div');
+  modal.style.cssText = [
+    'background:#fff', 'border-radius:14px', 'padding:28px 28px 22px',
+    'width:360px', 'max-width:calc(100vw - 40px)',
+    'box-shadow:0 20px 60px rgba(0,0,0,.18),0 4px 12px rgba(0,0,0,.08)',
+    'display:flex', 'flex-direction:column', 'gap:12px',
+    'animation:slideUp .18s cubic-bezier(.34,1.56,.64,1)'
+  ].join(';');
+
+  // Title row
+  const titleRow = document.createElement('div');
+  titleRow.style.cssText = 'display:flex;align-items:center;gap:9px';
+
+  const iconWrap = document.createElement('span');
+  iconWrap.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`;
+  iconWrap.style.flexShrink = '0';
+
+  const title = document.createElement('h3');
+  title.textContent = '字級階層異常';
+  title.style.cssText = 'font-size:15px;font-weight:700;color:#111;margin:0';
+
+  titleRow.appendChild(iconWrap);
+  titleRow.appendChild(title);
+
+  // Body
+  const body = document.createElement('p');
+  body.textContent = '目前字級未依由小到大遞增，可能影響排版層級與可讀性。\n是否仍要匯出 DESIGN.md？';
+  body.style.cssText = 'font-size:13px;color:#555;line-height:1.65;margin:0;white-space:pre-line';
+
+  // Buttons
+  const btnRow = document.createElement('div');
+  btnRow.style.cssText = 'display:flex;gap:8px;justify-content:flex-end;margin-top:4px';
+
+  const btnCancel = document.createElement('button');
+  btnCancel.textContent = '返回調整';
+  btnCancel.style.cssText = [
+    'padding:8px 16px', 'font-size:13px', 'font-weight:500',
+    'border:1.5px solid var(--ui-border2)', 'border-radius:8px',
+    'background:var(--ui-surface2)', 'color:var(--ui-text)',
+    'cursor:pointer', 'font-family:inherit', 'transition:background .12s'
+  ].join(';');
+  btnCancel.addEventListener('mouseenter', () => { btnCancel.style.background = 'var(--ui-border)'; });
+  btnCancel.addEventListener('mouseleave', () => { btnCancel.style.background = 'var(--ui-surface2)'; });
+
+  const btnConfirm = document.createElement('button');
+  btnConfirm.textContent = '仍要匯出';
+  btnConfirm.style.cssText = [
+    'padding:8px 16px', 'font-size:13px', 'font-weight:600',
+    'border:none', 'border-radius:8px',
+    'background:var(--ui-primary)', 'color:#fff',
+    'cursor:pointer', 'font-family:inherit', 'transition:opacity .12s'
+  ].join(';');
+  btnConfirm.addEventListener('mouseenter', () => { btnConfirm.style.opacity = '.85'; });
+  btnConfirm.addEventListener('mouseleave', () => { btnConfirm.style.opacity = '1'; });
+
+  const close = () => overlay.remove();
+
+  btnCancel.addEventListener('click', close);
+  btnConfirm.addEventListener('click', () => { close(); onConfirm(); });
+  overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+
+  btnRow.appendChild(btnCancel);
+  btnRow.appendChild(btnConfirm);
+  modal.appendChild(titleRow);
+  modal.appendChild(body);
+  modal.appendChild(btnRow);
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
 }
 
 /* ── Toast ── */
@@ -805,8 +1107,12 @@ function syncUiPrimary() {
   const hex = state.colorPrimary;
   const v   = generateVariants(hex);
   const root = document.documentElement;
-  root.style.setProperty('--ui-primary',       hex);
-  root.style.setProperty('--ui-primary-hover', v.hover);
+  root.style.setProperty('--ui-primary',        hex);
+  root.style.setProperty('--ui-primary-hover',  v.hover);
+  root.style.setProperty('--ui-secondary',      state.colorSecondary);
+  root.style.setProperty('--ui-active',         hex);
+  root.style.setProperty('--ui-active-hover',   v.hover);
+  root.style.setProperty('--ui-active-shadow',  `color-mix(in srgb, ${hex} 15%, transparent)`);
   root.style.setProperty('--ui-active-light', v.light);
   const [lh, ls, ll] = hexToHsl(v.light);
   root.style.setProperty('--ui-active-light-border', hslToHex(lh, ls, Math.max(ll - 12, 50)));
@@ -1042,14 +1348,44 @@ function renderPreviewWebMockup() {
 
   // Blob
   document.getElementById('mock-blob').style.background = p;
+
+  // ── CSS variables for extended mockup sections ──
+  const shadowMap = {
+    none:   'none',
+    soft:   '0 2px 8px rgba(0,0,0,.08)',
+    medium: '0 4px 16px rgba(0,0,0,.14)',
+    strong: '0 8px 28px rgba(0,0,0,.22)'
+  };
+  const cardRadius = state.btnRadius <= 4 ? '8px' : state.btnRadius <= 12 ? '14px' : '20px';
+  const elevated   = state.cardStyle === 'elevated';
+  const cardShadow = elevated ? (shadowMap[state.shadowStyle] || '0 2px 8px rgba(0,0,0,.08)') : 'none';
+  const cardBorder = elevated ? 'none' : '1px solid rgba(0,0,0,.09)';
+
+  // Input style classes on mock form inputs
+  root.querySelectorAll('.mock-form-input').forEach(el => {
+    el.classList.remove('mock-input-bordered', 'mock-input-underline');
+    el.classList.add(`mock-input-${state.inputStyle}`);
+  });
+
+  root.style.setProperty('--mk-primary',      p);
+  root.style.setProperty('--mk-primary-text', contrastingText(p));
+  root.style.setProperty('--mk-accent',       state.colorAccent);
+  root.style.setProperty('--mk-bg',           bg);
+  root.style.setProperty('--mk-text',         text);
+  root.style.setProperty('--mk-btn-radius',   `${state.btnRadius}px`);
+  root.style.setProperty('--mk-input-radius', `${Math.min(state.btnRadius, 8)}px`);
+  root.style.setProperty('--mk-card-radius',  cardRadius);
+  root.style.setProperty('--mk-shadow',       cardShadow);
+  root.style.setProperty('--mk-card-border',  cardBorder);
 }
 
 function renderPreviewColors() {
   // Update hex labels
-  document.getElementById('prev-hex-primary').textContent = state.colorPrimary.toUpperCase();
-  document.getElementById('prev-hex-accent').textContent  = state.colorAccent.toUpperCase();
-  document.getElementById('prev-hex-bg').textContent   = state.colorBg.toUpperCase();
-  document.getElementById('prev-hex-text').textContent  = state.colorText.toUpperCase();
+  document.getElementById('prev-hex-primary').textContent   = state.colorPrimary.toUpperCase();
+  document.getElementById('prev-hex-secondary').textContent = state.colorSecondary.toUpperCase();
+  document.getElementById('prev-hex-accent').textContent    = state.colorAccent.toUpperCase();
+  document.getElementById('prev-hex-bg').textContent        = state.colorBg.toUpperCase();
+  document.getElementById('prev-hex-text').textContent      = state.colorText.toUpperCase();
 
   // Neutral cards
   const bgCard = document.getElementById('prev-sw-bg');
@@ -1063,8 +1399,9 @@ function renderPreviewColors() {
   textCard.querySelector('.prev-neutral-hex').style.color  = contrastingText(state.colorText);
 
   // Color scales
-  buildColorScale('scale-primary', state.colorPrimary);
-  buildColorScale('scale-accent',  state.colorAccent);
+  buildColorScale('scale-primary',   state.colorPrimary);
+  buildColorScale('scale-secondary', state.colorSecondary);
+  buildColorScale('scale-accent',    state.colorAccent);
 }
 
 function buildColorScale(containerId, hex) {

@@ -65,18 +65,13 @@
       <option value="tech" selected>科技感</option>
       <option value="warm">溫暖系</option>
       <option value="corporate">專業商務</option>
+      <option value="forest">林間</option>
     </select>
     <div class="flex items-center gap-4 ml-auto flex-shrink-0">
       <button id="btn-reset" class="toolbar-action-btn">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
         重置
       </button>
-      <div class="w-px h-4 bg-ui-border2 flex-shrink-0"></div>
-      <div id="btn-theme-toggle" class="theme-toggle-wrap" title="切換深色模式">
-        <svg class="theme-toggle-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
-        <span class="theme-track"><span class="theme-thumb"></span></span>
-        <svg class="theme-toggle-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg>
-      </div>
     </div>
   </div>
 
@@ -159,6 +154,13 @@
               <div class="flex items-center gap-2">
                 <input type="color" id="colorPrimary" class="color-picker" value="#2563eb">
                 <input type="text" id="hexPrimary" class="hex-input w-[100px]" value="#2563eb" maxlength="7" spellcheck="false">
+              </div>
+            </div>
+            <div>
+              <label class="block text-[12px] font-medium mb-1.5">次要色 Secondary</label>
+              <div class="flex items-center gap-2">
+                <input type="color" id="colorSecondary" class="color-picker" value="#3F3F46">
+                <input type="text" id="hexSecondary" class="hex-input w-[100px]" value="#3F3F46" maxlength="7" spellcheck="false">
               </div>
             </div>
             <div>
@@ -261,18 +263,22 @@
           </div>
 
           <div class="mb-8">
-            <label class="block text-[12px] font-medium mb-2">
-              字級系統 <span class="text-[11px] font-normal text-ui-text3 normal-case tracking-normal ml-1">px，可修改</span>
-            </label>
-            <div class="flex flex-col gap-1.5">
-              <div class="flex items-center gap-2"><span class="text-[11px] font-mono font-semibold text-ui-primary w-8 flex-shrink-0">xs</span><input type="number" class="scale-input" id="size-xs" value="12" min="8" max="20"><span class="text-[11px] text-ui-text3">px</span><span class="text-[11px] text-ui-text2 flex-1">標籤</span></div>
-              <div class="flex items-center gap-2"><span class="text-[11px] font-mono font-semibold text-ui-primary w-8 flex-shrink-0">sm</span><input type="number" class="scale-input" id="size-sm" value="14" min="10" max="20"><span class="text-[11px] text-ui-text3">px</span><span class="text-[11px] text-ui-text2 flex-1">次要文字</span></div>
-              <div class="flex items-center gap-2"><span class="text-[11px] font-mono font-semibold text-ui-primary w-8 flex-shrink-0">base</span><input type="number" class="scale-input" id="size-base" value="16" min="12" max="24"><span class="text-[11px] text-ui-text3">px</span><span class="text-[11px] text-ui-text2 flex-1">內文</span></div>
-              <div class="flex items-center gap-2"><span class="text-[11px] font-mono font-semibold text-ui-primary w-8 flex-shrink-0">lg</span><input type="number" class="scale-input" id="size-lg" value="20" min="16" max="32"><span class="text-[11px] text-ui-text3">px</span><span class="text-[11px] text-ui-text2 flex-1">小標題</span></div>
-              <div class="flex items-center gap-2"><span class="text-[11px] font-mono font-semibold text-ui-primary w-8 flex-shrink-0">xl</span><input type="number" class="scale-input" id="size-xl" value="24" min="18" max="40"><span class="text-[11px] text-ui-text3">px</span><span class="text-[11px] text-ui-text2 flex-1">標題</span></div>
-              <div class="flex items-center gap-2"><span class="text-[11px] font-mono font-semibold text-ui-primary w-8 flex-shrink-0">2xl</span><input type="number" class="scale-input" id="size-2xl" value="32" min="24" max="56"><span class="text-[11px] text-ui-text3">px</span><span class="text-[11px] text-ui-text2 flex-1">大標題</span></div>
-              <div class="flex items-center gap-2"><span class="text-[11px] font-mono font-semibold text-ui-primary w-8 flex-shrink-0">3xl</span><input type="number" class="scale-input" id="size-3xl" value="48" min="32" max="80"><span class="text-[11px] text-ui-text3">px</span><span class="text-[11px] text-ui-text2 flex-1">Hero</span></div>
+            <div class="flex items-center justify-between mb-2">
+              <label class="block text-[12px] font-medium">字級系統</label>
+              <button id="ts-reset" class="ts-reset-btn hidden">重設為比例</button>
             </div>
+            <!-- Base + Scale ratio -->
+            <div class="flex items-center gap-2 mb-3 flex-wrap">
+              <span class="text-[11px] text-ui-text3 shrink-0">Base</span>
+              <input type="number" id="ts-base" class="scale-input" value="16" min="10" max="32" style="width:56px">
+              <span class="text-[11px] text-ui-text3 mr-1">px</span>
+              <label class="ts-ratio-opt"><input type="radio" name="tsRatio" value="1.2" checked><span>1.2</span></label>
+              <label class="ts-ratio-opt"><input type="radio" name="tsRatio" value="1.25"><span>1.25</span></label>
+              <label class="ts-ratio-opt"><input type="radio" name="tsRatio" value="1.333"><span>1.333</span></label>
+              <label class="ts-ratio-opt"><input type="radio" name="tsRatio" value="1.5"><span>1.5</span></label>
+            </div>
+            <!-- Token list (rendered by JS) -->
+            <div id="type-scale-list" class="flex flex-col gap-1.5"></div>
           </div>
         </section>
 
@@ -526,7 +532,8 @@
             DESIGN.md
           </button>
         </div>
-        <div class="right-tab-actions ml-auto gap-2" id="md-actions">
+        <div class="ml-auto flex items-center gap-3">
+        <div class="right-tab-actions gap-2" id="md-actions">
           <button class="out-btn secondary" id="btn-copy">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
             複製
@@ -536,7 +543,13 @@
             下載 .md
           </button>
         </div>
-      </div>
+        <div id="btn-theme-toggle" class="theme-toggle-wrap" title="切換預覽深色模式">
+          <svg class="theme-toggle-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+          <span class="theme-track"><span class="theme-thumb"></span></span>
+          <svg class="theme-toggle-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg>
+        </div>
+        </div><!-- ml-auto wrapper -->
+      </div><!-- right tab bar -->
 
       <!-- ── Mockup Panel ── -->
       <div class="preview-panel" id="rtab-mockup">
@@ -582,6 +595,118 @@
               <div class="web-hero-blob" id="mock-blob"></div>
             </div>
           </div>
+
+          <!-- ── Feature Section ── -->
+          <section class="mock-section mock-features">
+            <h2 class="mock-section-title">為什麼選擇我們</h2>
+            <p class="mock-section-sub">三大核心優勢，讓你的工作更有效率</p>
+            <div class="mock-feat-grid">
+              <div class="mock-feat-card">
+                <div class="mock-feat-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                </div>
+                <h3 class="mock-feat-name">快速部署</h3>
+                <p class="mock-feat-desc">5 分鐘內完成設定，立即投入使用，無需繁瑣配置。</p>
+              </div>
+              <div class="mock-feat-card">
+                <div class="mock-feat-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
+                </div>
+                <h3 class="mock-feat-name">企業級安全</h3>
+                <p class="mock-feat-desc">SOC2 認證，端對端加密保護你的每一筆資料。</p>
+              </div>
+              <div class="mock-feat-card">
+                <div class="mock-feat-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
+                </div>
+                <h3 class="mock-feat-name">即時分析</h3>
+                <p class="mock-feat-desc">數據驅動決策，即時掌握團隊完整洞察。</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- ── Pricing Section ── -->
+          <section class="mock-section mock-pricing">
+            <h2 class="mock-section-title">選擇適合的方案</h2>
+            <p class="mock-section-sub">從個人到企業，彈性配合你的規模</p>
+            <div class="mock-price-grid">
+              <div class="mock-price-card">
+                <div class="mock-price-plan">入門版</div>
+                <div class="mock-price-amount"><span class="mock-price-num">$0</span><span class="mock-price-unit">/月</span></div>
+                <ul class="mock-price-list">
+                  <li>3 個專案</li>
+                  <li>基本分析報表</li>
+                  <li>5 GB 儲存空間</li>
+                </ul>
+                <button class="mock-price-btn mock-price-btn-outline">免費開始</button>
+              </div>
+              <div class="mock-price-card mock-price-featured">
+                <div class="mock-price-badge">最受歡迎</div>
+                <div class="mock-price-plan">專業版</div>
+                <div class="mock-price-amount"><span class="mock-price-num">$29</span><span class="mock-price-unit">/月</span></div>
+                <ul class="mock-price-list">
+                  <li>無限專案</li>
+                  <li>進階分析報表</li>
+                  <li>100 GB 儲存空間</li>
+                  <li>優先客戶支援</li>
+                </ul>
+                <button class="mock-price-btn mock-price-btn-primary">立即升級</button>
+              </div>
+              <div class="mock-price-card">
+                <div class="mock-price-plan">企業版</div>
+                <div class="mock-price-amount"><span class="mock-price-num">聯繫</span><span class="mock-price-unit">我們</span></div>
+                <ul class="mock-price-list">
+                  <li>客製化方案</li>
+                  <li>專屬帳戶顧問</li>
+                  <li>SLA 保障</li>
+                </ul>
+                <button class="mock-price-btn mock-price-btn-outline">聯繫業務</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- ── Contact / Form Section ── -->
+          <section class="mock-section mock-contact">
+            <h2 class="mock-section-title">聯絡我們</h2>
+            <p class="mock-section-sub">填寫以下資訊，我們將在 24 小時內回覆</p>
+            <div class="mock-contact-form">
+              <div class="mock-form-row">
+                <div class="mock-form-group">
+                  <label class="mock-form-label">姓名</label>
+                  <div class="mock-form-input mock-input-bordered">請輸入姓名</div>
+                </div>
+                <div class="mock-form-group">
+                  <label class="mock-form-label">Email</label>
+                  <div class="mock-form-input mock-input-bordered">you@example.com</div>
+                </div>
+              </div>
+              <div class="mock-form-group">
+                <label class="mock-form-label">訊息內容</label>
+                <div class="mock-form-input mock-form-textarea mock-input-bordered">請描述你的需求...</div>
+              </div>
+              <button class="mock-contact-btn">送出訊息</button>
+            </div>
+          </section>
+
+          <!-- ── CTA Banner ── -->
+          <section class="mock-cta-section">
+            <h2 class="mock-cta-section-title">準備好開始了嗎？</h2>
+            <p class="mock-cta-section-sub">立即加入 10,000+ 個團隊，提升你的工作效率。</p>
+            <button class="mock-cta-section-btn">免費試用 14 天 →</button>
+          </section>
+
+          <!-- ── Footer ── -->
+          <footer class="mock-footer">
+            <div class="mock-footer-brand">
+              <span class="mock-footer-dot"></span>
+              <span class="mock-footer-logo">品牌</span>
+            </div>
+            <div class="mock-footer-links">
+              <span>產品</span><span>方案</span><span>文件</span><span>關於我們</span>
+            </div>
+            <span class="mock-footer-copy">© 2025 品牌. All rights reserved.</span>
+          </footer>
+
         </div>
       </div><!-- .rtab-mockup -->
 
@@ -598,6 +723,14 @@
               <span class="text-[11px] font-mono text-ui-text3" id="prev-hex-primary">#2563EB</span>
             </div>
             <div class="color-scale-row" id="scale-primary"></div>
+          </div>
+
+          <div class="mb-4">
+            <div class="flex items-baseline gap-2 mb-2">
+              <span class="text-xs font-bold">Secondary</span>
+              <span class="text-[11px] font-mono text-ui-text3" id="prev-hex-secondary">#3F3F46</span>
+            </div>
+            <div class="color-scale-row" id="scale-secondary"></div>
           </div>
 
           <div class="mb-4">

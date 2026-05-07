@@ -43,6 +43,7 @@
       }
     }
   </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -59,7 +60,7 @@
   </header>
 
   <!-- ── Toolbar ── -->
-  <div class="flex items-center gap-2.5 px-[20px] py-2 mt-[32px] mb-[12px] mx-[40px] flex-shrink-0 border border-ui-border rounded-[12px] bg-ui-surface shadow-[0_1px_4px_rgba(0,0,0,0.06)]">
+  <div id="main-toolbar" class="flex items-center gap-2.5 px-[20px] py-2 mt-[16px] mb-[12px] mx-[40px] flex-shrink-0 border border-ui-border rounded-[12px] bg-ui-surface shadow-[0_1px_4px_rgba(0,0,0,0.06)]">
     <select id="preset-select" class="select-input text-xs">
       <option value="minimal">簡約白</option>
       <option value="tech" selected>科技感</option>
@@ -67,19 +68,29 @@
       <option value="corporate">專業商務</option>
       <option value="forest">林間</option>
     </select>
-    <div class="flex items-center gap-4 ml-auto flex-shrink-0">
-      <button id="btn-reset" class="toolbar-action-btn">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-        重置
-      </button>
-    </div>
+    <button id="btn-reset" class="toolbar-action-btn ml-2" style="display:none">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+      恢復預設
+    </button>
+  </div>
+
+  <!-- ── Mobile Panel Switcher (hidden on desktop) ── -->
+  <div class="mobile-panel-switcher" id="mobile-panel-switcher">
+    <button class="mobile-panel-btn active" data-mpanel="edit">
+      <i data-lucide="pen-line"></i>
+      編輯
+    </button>
+    <button class="mobile-panel-btn" data-mpanel="preview">
+      <i data-lucide="eye"></i>
+      預覽
+    </button>
   </div>
 
   <!-- ── Main Layout ── -->
-  <main class="flex flex-1 overflow-hidden min-h-0 pb-[40px] px-[40px] gap-4">
+  <main class="flex flex-1 overflow-hidden min-h-0 pb-[20px] px-[40px] gap-4">
 
     <!-- ── Left Panel ── -->
-    <div class="w-left-panel flex-shrink-0 bg-ui-surface border border-ui-border rounded-[12px] flex flex-col overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.08),0_1px_2px_rgba(0,0,0,0.04)]">
+    <div id="panel-left" class="w-left-panel flex-shrink-0 bg-ui-surface border border-ui-border rounded-[12px] flex flex-col overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.08),0_1px_2px_rgba(0,0,0,0.04)]">
 
       <!-- Tab Nav -->
       <nav class="flex border-b border-ui-border px-1 overflow-x-auto flex-shrink-0 h-tabnav [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" role="tablist">
@@ -510,26 +521,38 @@
 
       </div><!-- .tab-content-wrapper -->
 
+      <!-- Mobile bottom tab navigation -->
+      <div class="mobile-tab-nav" id="mobile-tab-nav">
+        <button class="mobile-tab-prev" id="mobile-tab-prev">
+          <i data-lucide="arrow-left"></i>
+          上一頁
+        </button>
+        <span class="mobile-tab-counter" id="mobile-tab-counter">1 / 5</span>
+        <button class="mobile-tab-next" id="mobile-tab-next">
+          下一頁
+          <i data-lucide="arrow-right"></i>
+        </button>
+      </div>
 
     </div><!-- .panel-left -->
 
     <!-- ── Right Panel ── -->
-    <div class="flex-1 flex flex-col bg-ui-surface overflow-hidden min-w-0 border border-ui-border rounded-[12px] shadow-[0_2px_8px_rgba(0,0,0,0.08),0_1px_2px_rgba(0,0,0,0.04)]">
+    <div id="panel-right" class="flex-1 flex flex-col bg-ui-surface overflow-hidden min-w-0 border border-ui-border rounded-[12px] shadow-[0_2px_8px_rgba(0,0,0,0.08),0_1px_2px_rgba(0,0,0,0.04)]">
 
       <!-- Right Tab Bar -->
       <div class="flex items-center h-tabnav px-4 border-b border-ui-border gap-1 flex-shrink-0 bg-ui-surface">
         <div class="right-tab-switcher">
           <button class="right-tab active" data-rtab="mockup">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
-            預覽
+            <i data-lucide="monitor"></i>
+            <span class="rtab-desktop">預覽</span><span class="rtab-mobile">Mockup</span>
           </button>
           <button class="right-tab" data-rtab="preview">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 7 6 2"/><path d="M18.992 12H2.041"/><path d="M21.145 18.38A3.34 3.34 0 0 1 20 16.5a3.3 3.3 0 0 1-1.145 1.88c-.575.46-.855 1.02-.855 1.595A2 2 0 0 0 20 22a2 2 0 0 0 2-2.025c0-.58-.285-1.13-.855-1.595"/><path d="m8.5 4.5 2.148-2.148a1.205 1.205 0 0 1 1.704 0l7.296 7.296a1.205 1.205 0 0 1 0 1.704l-7.592 7.592a3.615 3.615 0 0 1-5.112 0l-3.888-3.888a3.615 3.615 0 0 1 0-5.112L5.67 7.33"/></svg>
-            元件
+            <i data-lucide="layers"></i>
+            <span class="rtab-desktop">元件</span><span class="rtab-mobile">元件</span>
           </button>
           <button class="right-tab" data-rtab="md">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/></svg>
-            DESIGN.md
+            <i data-lucide="file-text"></i>
+            <span class="rtab-desktop">DESIGN.md</span><span class="rtab-mobile">.md</span>
           </button>
         </div>
         <div class="ml-auto flex items-center gap-3">
@@ -542,11 +565,6 @@
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg>
             下載 .md
           </button>
-        </div>
-        <div id="btn-theme-toggle" class="theme-toggle-wrap" title="切換預覽深色模式">
-          <svg class="theme-toggle-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
-          <span class="theme-track"><span class="theme-thumb"></span></span>
-          <svg class="theme-toggle-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg>
         </div>
         </div><!-- ml-auto wrapper -->
       </div><!-- right tab bar -->
@@ -566,6 +584,12 @@
             <div class="web-nav-actions">
               <span class="web-nav-ghost" id="mock-signin">登入</span>
               <button class="web-cta-btn" id="mock-cta-btn">免費開始</button>
+            </div>
+            <button class="web-nav-hamburger" id="mock-hamburger" aria-label="選單">
+              <span></span><span></span><span></span>
+            </button>
+            <div class="web-nav-mobile" id="mock-nav-mobile">
+              <span>產品</span><span>方案</span><span>文件</span>
             </div>
           </nav>
           <!-- Hero -->
@@ -599,28 +623,35 @@
           <!-- ── Feature Section ── -->
           <section class="mock-section mock-features">
             <h2 class="mock-section-title">為什麼選擇我們</h2>
-            <p class="mock-section-sub">三大核心優勢，讓你的工作更有效率</p>
+            <p class="mock-section-sub">四大核心優勢，讓你的工作更有效率</p>
             <div class="mock-feat-grid">
               <div class="mock-feat-card">
                 <div class="mock-feat-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
                 </div>
                 <h3 class="mock-feat-name">快速部署</h3>
-                <p class="mock-feat-desc">5 分鐘內完成設定，立即投入使用，無需繁瑣配置。</p>
+                <p class="mock-feat-desc">5 分鐘完成設定，即刻上手。</p>
               </div>
               <div class="mock-feat-card">
                 <div class="mock-feat-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
                 </div>
                 <h3 class="mock-feat-name">企業級安全</h3>
-                <p class="mock-feat-desc">SOC2 認證，端對端加密保護你的每一筆資料。</p>
+                <p class="mock-feat-desc">SOC2 認證，端對端加密保護。</p>
               </div>
               <div class="mock-feat-card">
                 <div class="mock-feat-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
                 </div>
                 <h3 class="mock-feat-name">即時分析</h3>
-                <p class="mock-feat-desc">數據驅動決策，即時掌握團隊完整洞察。</p>
+                <p class="mock-feat-desc">即時掌握團隊完整洞察。</p>
+              </div>
+              <div class="mock-feat-card">
+                <div class="mock-feat-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <h3 class="mock-feat-name">團隊協作</h3>
+                <p class="mock-feat-desc">跨部門同步，步調一致。</p>
               </div>
             </div>
           </section>
@@ -701,9 +732,6 @@
               <span class="mock-footer-dot"></span>
               <span class="mock-footer-logo">品牌</span>
             </div>
-            <div class="mock-footer-links">
-              <span>產品</span><span>方案</span><span>文件</span><span>關於我們</span>
-            </div>
             <span class="mock-footer-copy">© 2025 品牌. All rights reserved.</span>
           </footer>
 
@@ -773,6 +801,18 @@
       <!-- ── MD Panel ── -->
       <div class="md-panel" id="rtab-md">
         <pre id="md-output" class="md-preview"></pre>
+      </div>
+
+      <!-- ── Mobile Sticky Bottom Bar ── -->
+      <div class="mobile-bottom-bar" id="mobile-bottom-bar">
+        <button class="out-btn secondary" id="btn-copy-mobile">
+          <i data-lucide="copy"></i>
+          複製
+        </button>
+        <button class="out-btn primary" id="btn-download-mobile">
+          <i data-lucide="download"></i>
+          下載 .md
+        </button>
       </div>
 
     </div><!-- .panel-right -->

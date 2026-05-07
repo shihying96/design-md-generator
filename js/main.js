@@ -113,20 +113,33 @@ let currentRightTab = 'mockup';
 let currentPresetName = 'tech';
 
 /* ── Dirty State Detection ── */
+let _presetBaseline = null; // snapshot taken after applyPreset finishes (post-recompute)
+
+const DIRTY_KEYS = ['colorPrimary','colorSecondary','colorAccent','colorBg','colorText','fontZh','fontEn',
+  'btnRadius','inputStyle','cardStyle','spacingBase','maxWidth','gridCols','shadowStyle',
+  'baseFontSize','typeScale'];
+
+function snapshotBaseline() {
+  const snap = {};
+  DIRTY_KEYS.forEach(k => { snap[k] = state[k]; });
+  snap.sizes        = JSON.stringify(state.sizes);
+  snap.sizeOverrides = JSON.stringify(state.sizeOverrides);
+  _presetBaseline = snap;
+}
+
 function isStateDirty() {
-  if (!currentPresetName || !PRESETS[currentPresetName]) return false;
-  const preset = PRESETS[currentPresetName];
-  const keys = ['colorPrimary','colorSecondary','colorAccent','colorBg','colorText','fontZh','fontEn',
-    'btnRadius','inputStyle','cardStyle','spacingBase','maxWidth','gridCols','shadowStyle',
-    'baseFontSize','typeScale'];
-  if (keys.some(k => state[k] !== preset[k])) return true;
-  if (JSON.stringify(state.sizes) !== JSON.stringify(preset.sizes)) return true;
-  return JSON.stringify(state.sizeOverrides) !== JSON.stringify(preset.sizeOverrides);
+  if (!_presetBaseline) return false;
+  if (DIRTY_KEYS.some(k => state[k] !== _presetBaseline[k])) return true;
+  if (JSON.stringify(state.sizes) !== _presetBaseline.sizes) return true;
+  return JSON.stringify(state.sizeOverrides) !== _presetBaseline.sizeOverrides;
 }
 
 function syncDirtyIndicator() {
   const sel = document.getElementById('preset-select');
   if (sel?._csync?.customSync) sel._csync.customSync();
+  const dirty = isStateDirty();
+  const resetBtn = document.getElementById('btn-reset');
+  if (resetBtn) resetBtn.style.display = dirty ? '' : 'none';
 }
 
 /* ── Init ── */
@@ -146,6 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initPresets();
   initExportButtons();
   initToolbar();
+  initMockHamburger();
   applyPreset('tech');
 
   // 防止自訂選項卡觸發瀏覽器 focus-scroll
@@ -162,8 +176,45 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
+  initMobilePanelSwitcher();
+
   document.body.classList.add('app-ready');
+
+  if (typeof lucide !== 'undefined') lucide.createIcons();
 });
+
+/* ── Mobile Panel Switcher ── */
+function initMobilePanelSwitcher() {
+  // 編輯 / 預覽 switcher
+  const btns = document.querySelectorAll('.mobile-panel-btn');
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      if (btn.dataset.mpanel === 'preview') {
+        document.body.classList.add('mobile-preview');
+      } else {
+        document.body.classList.remove('mobile-preview');
+      }
+    });
+  });
+
+  // Mobile bottom bar 鏡像桌面按鈕
+  document.getElementById('btn-copy-mobile')?.addEventListener('click', () => {
+    document.getElementById('btn-copy').click();
+  });
+  document.getElementById('btn-download-mobile')?.addEventListener('click', () => {
+    document.getElementById('btn-download').click();
+  });
+
+// Mobile tab prev / next
+  document.getElementById('mobile-tab-prev')?.addEventListener('click', () => {
+    switchTab(currentTab - 1);
+  });
+  document.getElementById('mobile-tab-next')?.addEventListener('click', () => {
+    switchTab(currentTab + 1);
+  });
+}
 
 /* ── Custom Select Component ── */
 function initCustomSelects() {
@@ -408,10 +459,6 @@ function initToolbar() {
     switchTab(1);
   });
 
-  // 深淺色切換（只影響預覽區）
-  document.getElementById('btn-theme-toggle').addEventListener('click', () => {
-    document.documentElement.classList.toggle('preview-dark');
-  });
 }
 
 /* ── Tab Switching ── */
@@ -434,6 +481,9 @@ function switchTab(n) {
     pane.classList.toggle('active', pane.id === `tab-${n}`);
   });
 
+  // Update mobile tab counter
+  const counter = document.getElementById('mobile-tab-counter');
+  if (counter) counter.textContent = `${n} / ${TOTAL_TABS}`;
 }
 
 /* ── Color Pickers ── */
@@ -961,11 +1011,13 @@ function applyPreset(name) {
   renderRuleList('dos');
   renderRuleList('donts');
 
-  renderAll();
-
   // Sync preset select
   const sel = document.getElementById('preset-select');
   if (sel) { sel.value = name; syncCustomSelectDisplay(sel); }
+
+  // Snapshot BEFORE renderAll so syncDirtyIndicator sees clean state
+  snapshotBaseline();
+  renderAll();
 }
 
 /* ── Export Buttons ── */
@@ -1566,6 +1618,17 @@ function renderPreviewSpacingShadow() {
   shadowHtml += `</div>`;
 
   container.innerHTML = spacingHtml + shadowHtml;
+}
+
+/* ── Mock Hamburger ── */
+function initMockHamburger() {
+  const btn  = document.getElementById('mock-hamburger');
+  const menu = document.getElementById('mock-nav-mobile');
+  if (!btn || !menu) return;
+  btn.addEventListener('click', () => {
+    const isOpen = menu.classList.toggle('open');
+    btn.classList.toggle('open', isOpen);
+  });
 }
 
 // SHADOW_CSS ref for preview

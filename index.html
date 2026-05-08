@@ -184,35 +184,35 @@
 
           <div class="grid grid-cols-2 gap-3 mb-5">
             <div>
-              <label class="block text-[12px] font-medium mb-1.5">主色 Primary</label>
+              <label class="block text-[12px] font-medium mb-1.5">Primary</label>
               <div class="flex items-center gap-2">
                 <input type="color" id="colorPrimary" class="color-picker" value="#2563eb">
                 <input type="text" id="hexPrimary" class="hex-input w-[100px]" value="#2563eb" maxlength="7" spellcheck="false">
               </div>
             </div>
             <div>
-              <label class="block text-[12px] font-medium mb-1.5">次要色 Secondary</label>
+              <label class="block text-[12px] font-medium mb-1.5">Secondary</label>
               <div class="flex items-center gap-2">
                 <input type="color" id="colorSecondary" class="color-picker" value="#3F3F46">
                 <input type="text" id="hexSecondary" class="hex-input w-[100px]" value="#3F3F46" maxlength="7" spellcheck="false">
               </div>
             </div>
             <div>
-              <label class="block text-[12px] font-medium mb-1.5">強調色 Accent</label>
+              <label class="block text-[12px] font-medium mb-1.5">Accent</label>
               <div class="flex items-center gap-2">
                 <input type="color" id="colorAccent" class="color-picker" value="#f59e0b">
                 <input type="text" id="hexAccent" class="hex-input w-[100px]" value="#f59e0b" maxlength="7" spellcheck="false">
               </div>
             </div>
             <div>
-              <label class="block text-[12px] font-medium mb-1.5">背景色 Background</label>
+              <label class="block text-[12px] font-medium mb-1.5">Background</label>
               <div class="flex items-center gap-2">
                 <input type="color" id="colorBg" class="color-picker" value="#ffffff">
                 <input type="text" id="hexBg" class="hex-input w-[100px]" value="#ffffff" maxlength="7" spellcheck="false">
               </div>
             </div>
             <div>
-              <label class="block text-[12px] font-medium mb-1.5">文字色 Text</label>
+              <label class="block text-[12px] font-medium mb-1.5">Text</label>
               <div class="flex items-center gap-2">
                 <input type="color" id="colorText" class="color-picker" value="#1f2937">
                 <input type="text" id="hexText" class="hex-input w-[100px]" value="#1f2937" maxlength="7" spellcheck="false">
@@ -297,21 +297,19 @@
           </div>
 
           <div class="mb-8">
-            <div class="flex items-center justify-between mb-2">
+            <label class="block text-[12px] font-medium mb-2">行高</label>
+            <div class="flex gap-2 flex-wrap">
+              <label class="checkbox-item"><input type="radio" name="lineHeight" value="compact"><span>緊湊</span></label>
+              <label class="checkbox-item"><input type="radio" name="lineHeight" value="normal" checked><span>標準</span></label>
+              <label class="checkbox-item"><input type="radio" name="lineHeight" value="relaxed"><span>寬鬆</span></label>
+            </div>
+          </div>
+
+          <div class="mb-8">
+            <div class="mb-2">
               <label class="block text-[12px] font-medium">字級系統</label>
-              <button id="ts-reset" class="ts-reset-btn hidden">重設為比例</button>
             </div>
-            <!-- Base + Scale ratio -->
-            <div class="flex items-center gap-2 mb-3 flex-wrap">
-              <span class="text-[11px] text-ui-text3 shrink-0">Base</span>
-              <input type="number" id="ts-base" class="scale-input" value="16" min="10" max="32" style="width:56px">
-              <span class="text-[11px] text-ui-text3 mr-1">px</span>
-              <label class="ts-ratio-opt"><input type="radio" name="tsRatio" value="1.2" checked><span>1.2</span></label>
-              <label class="ts-ratio-opt"><input type="radio" name="tsRatio" value="1.25"><span>1.25</span></label>
-              <label class="ts-ratio-opt"><input type="radio" name="tsRatio" value="1.333"><span>1.333</span></label>
-              <label class="ts-ratio-opt"><input type="radio" name="tsRatio" value="1.5"><span>1.5</span></label>
-            </div>
-            <!-- Token list (rendered by JS) -->
+            <!-- Token list (Base row + scale rows, all rendered by JS) -->
             <div id="type-scale-list" class="flex flex-col gap-1.5"></div>
           </div>
         </section>
@@ -320,7 +318,7 @@
         <section class="tab-pane" id="tab-4">
           <div class="mb-8">
             <h2 class="text-base font-semibold mb-1">元件樣式</h2>
-            <p class="text-xs text-ui-text3">點擊樣式選項，上方預覽即時切換。</p>
+            <p class="text-xs text-ui-text3">點擊樣式選項，下方預覽即時切換。</p>
           </div>
 
           <div class="flex flex-col gap-10">
@@ -372,7 +370,7 @@
                     <div class="mini-input-bordered"></div>
                     <div class="mini-input-bordered"></div>
                   </div>
-                  <span class="style-opt-name">有框線 Bordered</span>
+                  <span class="style-opt-name">有框線</span>
                   <span class="style-opt-desc">完整外框，結構清晰</span>
                 </label>
                 <label class="style-opt-card">
@@ -381,7 +379,7 @@
                     <div class="mini-input-underline"></div>
                     <div class="mini-input-underline"></div>
                   </div>
-                  <span class="style-opt-name">底線 Underline</span>
+                  <span class="style-opt-name">底線</span>
                   <span class="style-opt-desc">輕量，偏 Material 風格</span>
                 </label>
               </div>
@@ -415,7 +413,7 @@
                       <div class="mini-card-btn"></div>
                     </div>
                   </div>
-                  <span class="style-opt-name">Subtle Border</span>
+                  <span class="style-opt-name">細邊框</span>
                   <span class="style-opt-desc">扁平，細邊框，無陰影</span>
                 </label>
                 <label class="style-opt-card">
@@ -427,7 +425,7 @@
                       <div class="mini-card-btn"></div>
                     </div>
                   </div>
-                  <span class="style-opt-name">Elevated Shadow</span>
+                  <span class="style-opt-name">浮起陰影</span>
                   <span class="style-opt-desc">浮起感，有陰影，明顯層級</span>
                 </label>
               </div>
@@ -509,8 +507,8 @@
 
           <div class="mb-8">
             <label class="block text-[12px] font-medium mb-2" for="maxWidth">最大內容寬度</label>
-            <div class="flex items-center gap-2">
-              <input type="number" id="maxWidth" class="text-input w-36" value="1280" min="800" max="1920" step="80">
+            <div class="flex items-center gap-2 w-56">
+              <input type="number" id="maxWidth" class="text-input flex-1 min-w-0" value="1280" min="800" max="1920" step="80">
               <span class="text-xs text-ui-text3">px</span>
             </div>
           </div>
@@ -529,12 +527,12 @@
             <p class="text-xs text-ui-text2 mb-4">寫下設計使用規範，幫助團隊保持一致性。</p>
             <div class="grid grid-cols-2 gap-4">
               <div>
-                <h3 class="text-[13px] font-bold mb-2.5 text-[#059669]">✅ Do's</h3>
+                <h3 class="text-[13px] font-bold mb-2.5 text-[#059669]">Do's</h3>
                 <div id="dos-list" class="flex flex-col gap-1.5 mb-2"></div>
                 <button class="add-rule-btn do-btn w-full" id="add-do">新增</button>
               </div>
               <div>
-                <h3 class="text-[13px] font-bold mb-2.5 text-[#DC2626]">❌ Don'ts</h3>
+                <h3 class="text-[13px] font-bold mb-2.5 text-[#DC2626]">Don'ts</h3>
                 <div id="donts-list" class="flex flex-col gap-1.5 mb-2"></div>
                 <button class="add-rule-btn dont-btn w-full" id="add-dont">新增</button>
               </div>
@@ -793,11 +791,11 @@
           </div>
 
           <div class="flex gap-2.5">
-            <div class="prev-neutral-card flex-1" id="prev-sw-bg">
+            <div class="prev-neutral-card flex-1 cursor-pointer" id="prev-sw-bg" title="點擊複製">
               <span class="prev-neutral-name">Background</span>
               <span class="prev-neutral-hex" id="prev-hex-bg">#FFFFFF</span>
             </div>
-            <div class="prev-neutral-card flex-1" id="prev-sw-text">
+            <div class="prev-neutral-card flex-1 cursor-pointer" id="prev-sw-text" title="點擊複製">
               <span class="prev-neutral-name">Text</span>
               <span class="prev-neutral-hex" id="prev-hex-text">#1F2937</span>
             </div>
@@ -841,6 +839,12 @@
     </div><!-- .panel-right -->
 
   </main>
+
+  <!-- Toast notification -->
+  <div data-toast class="fixed top-4 right-4 z-50 flex items-center gap-2 bg-white border border-gray-200 rounded-lg shadow-lg px-4 py-2.5 text-sm text-gray-800 pointer-events-none">
+    <i data-lucide="check-circle" class="w-4 h-4 text-green-600"></i>
+    <span data-toast-msg></span>
+  </div>
 
   <script src="js/wcag.js"></script>
   <script src="js/export.js"></script>

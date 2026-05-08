@@ -24,6 +24,7 @@ const state = {
   maxWidth:    1136,
   gridCols:    12,
   shadowStyle: 'soft',
+  lineHeight: 'normal',
   dos:   ['', '', ''],
   donts: ['', '', '']
 };
@@ -48,7 +49,7 @@ const PRESETS = {
     baseFontSize: 16, typeScale: 1.2, sizeOverrides: {},
     btnRadius: 10, inputStyle: 'bordered', cardStyle: 'bordered',
     spacingBase: 8, maxWidth: 1136, gridCols: 12,
-    shadowStyle: 'soft',
+    shadowStyle: 'soft', lineHeight: 'normal',
     dos:   ['以 #18181B 深炭黑為主色，#FAFAFA 為底色——冷靜對比是品牌基調', '次要介面使用 #F4F4F5 淺灰表面搭配 #18181B 深色文字，層次分明', '中性灰階（zinc 系）是唯一的色彩語言，不引入任何有彩度的顏色'],
     donts: ['不要使用純黑（#000000）或純白（#FFFFFF）——略帶溫度的炭黑與近白才是正確的', '不要引入任何有色調的 UI 元素——介面嚴格限於黑、白、灰', '不要讓陰影過深或過重——輕柔的層次感才符合這套中性美學']
   },
@@ -61,7 +62,7 @@ const PRESETS = {
     baseFontSize: 16, typeScale: 1.2, sizeOverrides: {},
     btnRadius: 6, inputStyle: 'bordered', cardStyle: 'bordered',
     spacingBase: 8, maxWidth: 1280, gridCols: 12,
-    shadowStyle: 'soft',
+    shadowStyle: 'soft', lineHeight: 'normal',
     dos:   ['以 #2061F7 藍色作為主色，搭配 #FAFAFB 極淺底色——建立清晰的品牌識別', '大量留白傳達精準感——空間即是設計語言', '文字層次依賴字重與大小，而非顏色變化'],
     donts: ['不要使用過於鮮豔的配色組合——低調質感是品牌核心', '不要堆疊多層視覺效果——每個畫面只傳達一個核心訊息', '不要讓陰影過重——輕柔層次感才符合這套科技美學']
   },
@@ -74,7 +75,7 @@ const PRESETS = {
     baseFontSize: 18, typeScale: 1.2, sizeOverrides: {},
     btnRadius: 20, inputStyle: 'bordered', cardStyle: 'elevated',
     spacingBase: 8, maxWidth: 1280, gridCols: 12,
-    shadowStyle: 'medium',
+    shadowStyle: 'medium', lineHeight: 'relaxed',
     dos:   ['以暖奶油色（#faf9f7）為頁面底色——暖調質感是品牌靈魂，不可替代', '標題 600 字重、UI 500、內文 400——嚴格三層字重系統不混用', '使用 Matcha、Lemon、Slushie 具名色票做大面積區塊背景，大膽用色不小氣'],
     donts: ['不要用冷灰或純白底色——暖奶油（#faf9f7）的溫度感是品牌核心識別', '不要用柔焦陰影——Clay 使用硬偏移陰影（-7px 7px）與多層 inset，不是模糊漸層', '不要讓按鈕圓角超過 4px——幾何邊角是有別於圓潤品牌的設計語言']
   },
@@ -87,7 +88,7 @@ const PRESETS = {
     baseFontSize: 16, typeScale: 1.2, sizeOverrides: {},
     btnRadius: 3, inputStyle: 'bordered', cardStyle: 'elevated',
     spacingBase: 8, maxWidth: 1280, gridCols: 12,
-    shadowStyle: 'none',
+    shadowStyle: 'none', lineHeight: 'normal',
     dos:   ['資訊架構要清晰，層次分明', '保持色彩使用的保守與一致', '按鈕文字要明確說明行動'],
     donts: ['不要使用過於鮮艷或前衛的配色', '不要讓排版看起來雜亂', '不要省略重要的資訊說明']
   },
@@ -100,7 +101,7 @@ const PRESETS = {
     baseFontSize: 16, typeScale: 1.2, sizeOverrides: {},
     btnRadius: 6, inputStyle: 'bordered', cardStyle: 'elevated',
     spacingBase: 8, maxWidth: 1280, gridCols: 12,
-    shadowStyle: 'soft',
+    shadowStyle: 'soft', lineHeight: 'normal',
     dos:   ['以 #2C3B31 深森林綠作為主色——展現品牌的自然感與可靠性', '純白底色是唯一背景色——保持乾淨呼吸感，避免使用米白或米灰', '以 #7A9E7E 鼠尾草綠作為點綴——少量使用於 tag、badge、hover 狀態'],
     donts: ['不要引入暖色調（棕、橘、黃）——冷靜的自然綠系是品牌核心', '不要讓主色大面積出現在文字區——深綠適合作為按鈕、強調元素，而非大段文字色', '不要使用純黑文字——#111827 帶有微藍的深色更符合品牌溫度']
   }
@@ -117,7 +118,7 @@ let currentPresetName = 'tech';
 let _presetBaseline = null; // snapshot taken after applyPreset finishes (post-recompute)
 
 const DIRTY_KEYS = ['colorPrimary','colorSecondary','colorAccent','colorBg','colorText','fontZh','fontEn',
-  'btnRadius','inputStyle','cardStyle','spacingBase','maxWidth','gridCols','shadowStyle',
+  'btnRadius','inputStyle','cardStyle','spacingBase','maxWidth','gridCols','shadowStyle','lineHeight',
   'baseFontSize','typeScale'];
 
 function snapshotBaseline() {
@@ -156,6 +157,17 @@ document.addEventListener('DOMContentLoaded', () => {
   initSliders();
   initSpacingBase();
   initShadow();
+  initLineHeight();
+  // Background / Text 卡片點擊複製
+  document.getElementById('prev-sw-bg').addEventListener('click', () => {
+    const hex = document.getElementById('prev-hex-bg').textContent;
+    navigator.clipboard.writeText(hex).then(() => showToast(`已複製 ${hex}`));
+  });
+  document.getElementById('prev-sw-text').addEventListener('click', () => {
+    const hex = document.getElementById('prev-hex-text').textContent;
+    navigator.clipboard.writeText(hex).then(() => showToast(`已複製 ${hex}`));
+  });
+
   initDosDonts();
   initPresets();
   handlePresetDropdownPlacement();
@@ -620,9 +632,7 @@ function renderTypeScaleList() {
   const list = document.getElementById('type-scale-list');
   if (!list) return;
   const computed = computeTypeScaleSizes(state.baseFontSize, state.typeScale);
-  const resetBtn = document.getElementById('ts-reset');
   const hasAnyOverride = Object.keys(state.sizeOverrides).length > 0;
-  if (resetBtn) resetBtn.classList.toggle('hidden', !hasAnyOverride);
 
   // Pre-compute current values & find violations
   const currentVals = {};
@@ -640,6 +650,55 @@ function renderTypeScaleList() {
 
   list.innerHTML = '';
 
+  // ── Base row — line 1: Base | [input px] | empty ──
+  const baseRow = document.createElement('div');
+  baseRow.className = 'ts-row';
+
+  const baseLabel = document.createElement('span');
+  baseLabel.className = 'ts-label-grey';
+  baseLabel.textContent = 'Base';
+
+  const baseInputWrapper = document.createElement('div');
+  baseInputWrapper.style.cssText = 'display:flex;align-items:center;gap:4px;';
+
+  const baseInp = document.createElement('input');
+  baseInp.type = 'number';
+  baseInp.id = 'ts-base-rendered';
+  baseInp.className = 'scale-input ts-scale-input';
+  baseInp.value = state.baseFontSize;
+  baseInp.min = 10;
+  baseInp.max = 32;
+
+  const pxSpan = document.createElement('span');
+  pxSpan.className = 'ts-px-label';
+  pxSpan.textContent = 'px';
+
+  baseInputWrapper.appendChild(baseInp);
+  baseInputWrapper.appendChild(pxSpan);
+
+  // col3: ratio pills
+  const ratioCol = document.createElement('div');
+  ratioCol.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;align-items:center;';
+  [1.2, 1.25, 1.333, 1.5].forEach(v => {
+    const lbl = document.createElement('label');
+    lbl.className = 'ts-ratio-opt';
+    const radio = document.createElement('input');
+    radio.type = 'radio';
+    radio.name = 'tsRatioRendered';
+    radio.value = v;
+    if (v === state.typeScale) radio.checked = true;
+    const sp = document.createElement('span');
+    sp.textContent = v;
+    lbl.appendChild(radio);
+    lbl.appendChild(sp);
+    ratioCol.appendChild(lbl);
+  });
+
+  baseRow.appendChild(baseLabel);
+  baseRow.appendChild(baseInputWrapper);
+  baseRow.appendChild(ratioCol);
+  list.appendChild(baseRow);
+
   TS_TOKENS.forEach(token => {
     const computedVal = computed[token];
     const isOverridden = token in state.sizeOverrides;
@@ -653,17 +712,13 @@ function renderTypeScaleList() {
     tokenSpan.className = 'ts-token';
     tokenSpan.textContent = token;
 
-    const computedSpan = document.createElement('span');
-    computedSpan.className = 'ts-computed';
-    computedSpan.title = `比例計算值：${computedVal}px`;
-    computedSpan.textContent = isOverridden ? `(${computedVal})` : '';
-
     const input = document.createElement('input');
     input.type = 'number';
     input.className = 'scale-input ts-scale-input' + (isOverridden ? ' is-overridden' : '') + (isViolating ? ' is-error' : '');
     input.value = currentVal;
     input.min = 6;
     input.max = 120;
+    input.title = `比例計算值：${computedVal}px`;
 
     input.addEventListener('input', () => {
       const val = parseInt(input.value);
@@ -678,6 +733,13 @@ function renderTypeScaleList() {
       renderMd();
     });
 
+    const col2 = document.createElement('div');
+    col2.className = 'ts-col2';
+    col2.appendChild(input);
+
+    const col3 = document.createElement('div');
+    col3.style.cssText = 'display:flex;align-items:center;gap:6px;';
+
     const badge = document.createElement('span');
     badge.className = 'ts-badge';
     badge.textContent = '已微調';
@@ -687,11 +749,12 @@ function renderTypeScaleList() {
     desc.className = 'ts-desc';
     desc.textContent = TS_LABELS[token];
 
+    col3.appendChild(badge);
+    col3.appendChild(desc);
+
     row.appendChild(tokenSpan);
-    row.appendChild(computedSpan);
-    row.appendChild(input);
-    row.appendChild(badge);
-    row.appendChild(desc);
+    row.appendChild(col2);
+    row.appendChild(col3);
     list.appendChild(row);
   });
 
@@ -705,47 +768,35 @@ function renderTypeScaleList() {
 }
 
 function initTypeScale() {
-  const baseInput = document.getElementById('ts-base');
-  const resetBtn = document.getElementById('ts-reset');
+  const list = document.getElementById('type-scale-list');
 
-  if (baseInput) {
-    baseInput.value = state.baseFontSize;
-    baseInput.addEventListener('input', () => {
-      const val = parseInt(baseInput.value);
+  if (list) {
+    list.addEventListener('input', e => {
+      if (e.target.id !== 'ts-base-rendered') return;
+      const val = parseInt(e.target.value);
       if (!val || val < 10) return;
       state.baseFontSize = val;
-      // recompute sizes, keep overrides
       const computed = computeTypeScaleSizes(state.baseFontSize, state.typeScale);
       TS_TOKENS.forEach(t => {
         state.sizes[t] = t in state.sizeOverrides ? state.sizeOverrides[t] : computed[t];
       });
       renderTypeScaleList();
       renderMd();
+      syncDirtyIndicator();
     });
-  }
 
-  document.querySelectorAll('input[name="tsRatio"]').forEach(radio => {
-    if (parseFloat(radio.value) === state.typeScale) radio.checked = true;
-    radio.addEventListener('change', () => {
-      state.typeScale = parseFloat(radio.value);
-      const computed = computeTypeScaleSizes(state.baseFontSize, state.typeScale);
-      TS_TOKENS.forEach(t => {
-        state.sizes[t] = t in state.sizeOverrides ? state.sizeOverrides[t] : computed[t];
-      });
-      renderTypeScaleList();
-      renderMd();
-    });
-  });
-
-  if (resetBtn) {
-    resetBtn.addEventListener('click', () => {
+    list.addEventListener('change', e => {
+      if (e.target.name !== 'tsRatioRendered') return;
+      state.typeScale = parseFloat(e.target.value);
       state.sizeOverrides = {};
       const computed = computeTypeScaleSizes(state.baseFontSize, state.typeScale);
       TS_TOKENS.forEach(t => { state.sizes[t] = computed[t]; });
       renderTypeScaleList();
       renderMd();
+      syncDirtyIndicator();
     });
   }
+
 
   // Initial render
   const computed = computeTypeScaleSizes(state.baseFontSize, state.typeScale);
@@ -882,6 +933,18 @@ function initShadow() {
   });
 }
 
+/* ── Line Height ── */
+function initLineHeight() {
+  document.querySelectorAll('input[name="lineHeight"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      state.lineHeight = radio.value;
+      renderPreviewWebMockup();
+      renderMd();
+      syncDirtyIndicator();
+    });
+  });
+}
+
 // SHADOW_CSS 定義在 renderPreview 區塊下方
 
 const SHADOW_TOKEN_TEXT = {
@@ -1007,11 +1070,7 @@ function applyPreset(name) {
   document.getElementById('preview-zh').style.fontFamily = `'${state.fontZh}',serif`;
   document.getElementById('preview-en').style.fontFamily  = `'${state.fontEn}',sans-serif`;
 
-  // Type Scale
-  const tsBaseEl = document.getElementById('ts-base');
-  if (tsBaseEl) tsBaseEl.value = state.baseFontSize;
-  const tsRatioEl = document.querySelector(`input[name="tsRatio"][value="${state.typeScale}"]`);
-  if (tsRatioEl) tsRatioEl.checked = true;
+  // Type Scale — Base row is fully rendered by renderTypeScaleList() from state
   // Recompute sizes respecting overrides
   const tsComputed = computeTypeScaleSizes(state.baseFontSize, state.typeScale);
   TS_TOKENS.forEach(t => {
@@ -1044,6 +1103,9 @@ function applyPreset(name) {
   // Shadow
   document.querySelector(`input[name="shadowStyle"][value="${state.shadowStyle}"]`).checked = true;
 
+  // Line Height
+  document.querySelector(`input[name="lineHeight"][value="${state.lineHeight}"]`).checked = true;
+
   // Dos/Donts
   renderRuleList('dos');
   renderRuleList('donts');
@@ -1061,7 +1123,7 @@ function applyPreset(name) {
 function initExportButtons() {
   document.getElementById('btn-copy').addEventListener('click', () => {
     const text = document.getElementById('md-output').textContent;
-    navigator.clipboard.writeText(text).then(() => showToast('✅ 已複製到剪貼板！'));
+    navigator.clipboard.writeText(text).then(() => showToast('已複製到剪貼板！'));
   });
 
   document.getElementById('btn-download').addEventListener('click', () => {
@@ -1074,7 +1136,6 @@ function initExportButtons() {
       a.download = 'DESIGN.md';
       a.click();
       URL.revokeObjectURL(url);
-      showToast('⬇️ DESIGN.md 下載中...');
     };
 
     if (hasSizeOrderViolation()) {
@@ -1180,15 +1241,13 @@ function showSizeWarningModal(onConfirm) {
 
 /* ── Toast ── */
 function showToast(msg) {
-  let toast = document.querySelector('.toast');
-  if (!toast) {
-    toast = document.createElement('div');
-    toast.className = 'toast';
-    document.body.appendChild(toast);
-  }
-  toast.textContent = msg;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2200);
+  const toast = document.querySelector('[data-toast]');
+  if (!toast) return;
+  const span = toast.querySelector('[data-toast-msg]');
+  if (span) span.textContent = msg;
+  clearTimeout(toast._timer);
+  toast.dataset.show = '';
+  toast._timer = setTimeout(() => delete toast.dataset.show, 2200);
 }
 
 /* ── Sync UI Primary Color ── */
@@ -1261,7 +1320,10 @@ function renderWcag() {
 
   const sEl = document.getElementById('wcag-suggestion');
   if (suggestions.length > 0) {
-    sEl.innerHTML = '⚠️ ' + suggestions.join('<br>');
+    const inner = suggestions.map((s, i) =>
+      `<div${i < suggestions.length - 1 ? ' style="margin-bottom:6px"' : ''}>${s}</div>`
+    ).join('');
+    sEl.innerHTML = `<div style="display:inline-block;text-align:left;">${inner}</div>`;
     sEl.classList.add('visible');
   } else {
     sEl.classList.remove('visible');
@@ -1466,6 +1528,13 @@ function renderPreviewWebMockup() {
   root.style.setProperty('--mk-card-radius',  cardRadius);
   root.style.setProperty('--mk-shadow',       cardShadow);
   root.style.setProperty('--mk-card-border',  cardBorder);
+
+  // Line height
+  const lhValues = LINE_HEIGHT_VALUES[state.lineHeight] || LINE_HEIGHT_VALUES.normal;
+  const mockHeading = document.getElementById('mock-heading');
+  const mockSub     = document.getElementById('mock-sub');
+  if (mockHeading) mockHeading.style.lineHeight = lhValues.heading;
+  if (mockSub)     mockSub.style.lineHeight     = lhValues.body;
 }
 
 function renderPreviewColors() {

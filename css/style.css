@@ -409,13 +409,15 @@ body.app-ready {
   padding: 8px 10px;
   background: rgba(245,158,11,.1);
   border: 1px solid rgba(245,158,11,.3);
+  text-align: left;
+  max-width: 480px;
   border-radius: var(--radius-sm);
   font-size: 11px;
   color: #92400E;
   display: none;
 }
 .wcag-suggestion.visible { display: block; }
-.wcag-fix-color { display: inline-flex; align-items: center; gap: 5px; font-weight: 600; cursor: pointer; }
+.wcag-fix-color { display: inline-flex; align-items: center; gap: 5px; font-weight: 600; cursor: pointer; vertical-align: middle; }
 .wcag-fix-swatch { width: 14px; height: 14px; border-radius: 3px; border: 1px solid rgba(0,0,0,.15); display: inline-block; }
 
 /* ── Variant Swatches ── */
@@ -485,24 +487,41 @@ body.app-ready {
 
 /* ── Type Scale token rows ── */
 .ts-row {
+  display: grid;
+  grid-template-columns: 60px 80px 1fr;
+  align-items: center;
+  gap: 6px;
+}
+.ts-col2 {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.ts-ratio-row {
+  grid-column: 1 / -1;
   display: flex;
   align-items: center;
   gap: 6px;
+  flex-wrap: wrap;
+  padding-bottom: 2px;
+}
+.ts-px-label {
+  font-size: 11px;
+  color: var(--ui-text3);
+}
+.ts-label-grey {
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--ui-text3);
+  width: 60px;
+  flex-shrink: 0;
 }
 .ts-token {
   font-size: 11px;
   font-family: 'JetBrains Mono', monospace;
   font-weight: 600;
   color: var(--ui-primary);
-  width: 30px;
-  flex-shrink: 0;
-}
-.ts-computed {
-  font-size: 10px;
-  color: var(--ui-text3);
-  font-family: 'JetBrains Mono', monospace;
-  width: 26px;
-  text-align: right;
+  width: 60px;
   flex-shrink: 0;
 }
 .ts-badge {
@@ -548,22 +567,6 @@ body.app-ready {
   flex-shrink: 0;
 }
 
-/* ── Reset button ── */
-.ts-reset-btn {
-  font-size: 11px;
-  padding: 3px 9px;
-  border-radius: var(--radius-sm);
-  border: 1.5px solid var(--ui-border2);
-  background: var(--ui-surface2);
-  color: var(--ui-text2);
-  cursor: pointer;
-  transition: border-color .12s, color .12s;
-}
-.ts-reset-btn:hover {
-  border-color: var(--ui-primary);
-  color: var(--ui-primary);
-}
-.ts-reset-btn.hidden { display: none; }
 
 /* ── Slider ── */
 .slider {
@@ -1009,7 +1012,7 @@ body.app-ready {
 }
 .web-nav-brand { display: flex; align-items: center; gap: 8px; flex-shrink: 0; line-height: 1; }
 .web-nav-dot { width: 20px; height: 20px; border-radius: 6px; display: block; flex-shrink: 0; vertical-align: middle; }
-.web-nav-logo { font-size: 15px; font-weight: 700; line-height: 1; }
+.web-nav-logo { font-size: 15px; font-weight: 700; line-height: 1; margin-top: -2px; }
 .web-nav-links { display: flex; gap: 20px; flex: 1; justify-content: center; }
 .web-nav-links span { font-size: 13px; cursor: pointer; transition: opacity .15s; }
 .web-nav-links span:hover { opacity: .55; }
@@ -1304,24 +1307,16 @@ body.app-ready {
   height: 100%;
 }
 
-/* ── Toast ── */
-.toast {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  background: #1E293B;
-  color: white;
-  padding: 10px 18px;
-  border-radius: var(--radius-md);
-  font-size: 13px;
-  box-shadow: var(--shadow-md);
-  transform: translateY(60px);
+/* ── Toast animation ── */
+[data-toast] {
+  transform: translateY(-16px);
   opacity: 0;
-  transition: all .3s cubic-bezier(.34,1.56,.64,1);
-  z-index: 9999;
-  pointer-events: none;
+  transition: transform .25s ease, opacity .25s ease;
 }
-.toast.show { transform: translateY(0); opacity: 1; }
+[data-toast][data-show] {
+  transform: translateY(0);
+  opacity: 1;
+}
 
 /* ── Right Panel Preview: Color Scale ── */
 .color-scale-row {
@@ -1751,7 +1746,7 @@ body.app-ready {
   /* Right sub-tabs */
   .rtab-desktop { display: none; }
   .rtab-mobile  { display: inline; }
-  .right-tab { font-size: 15px; padding: 5px 10px; }
+  .right-tab { font-size: 13px; padding: 5px 10px; }
   .right-tab .lucide { width: 14px; height: 14px; }
 
   /* Mobile bottom bar */
@@ -1767,7 +1762,7 @@ body.app-ready {
     flex: 1;
     justify-content: center;
     padding: 10px 14px;
-    font-size: 16px;
+    font-size: 13px;
   }
   .mobile-bottom-bar .out-btn .lucide { width: 14px; height: 14px; }
 
@@ -1775,51 +1770,10 @@ body.app-ready {
   #md-actions { display: none !important; }
 
 
-  /* ── Mobile font-size overrides: 13px base → 16px (scale ×16/13) ── */
-  body { font-size: 1.077rem; }
-  /* tab-btn keeps desktop sizes (tablist hidden at < 600px, tablet matches desktop) */
-  .preset-btn { font-size: 15px; }
-  .custom-select-trigger { font-size: 16px; }
-  .csel-option { font-size: 16px; }
-  .preset-name { font-size: 16px; }
-  .toolbar-action-btn { font-size: 15px; }
-  .nav-arrow { font-size: 15px; }
-  .text-input { font-size: 16px; }
-  .select-input { font-size: 16px; }
-  .hex-input { font-size: 16px; }
-  .checkbox-item { font-size: 16px; }
-  .scale-input { font-size: 16px; }
-  .wcag-on { font-size: 11px; }
-  .wcag-combo { font-size: 15px; }
-  .wcag-ratio { font-size: 16px; }
-  .wcag-badge { font-size: 12px; }
-  .wcag-suggestion { font-size: 14px; }
-  .variant-swatch::after { font-size: 11px; }
-  .ts-ratio-opt span { font-size: 14px; }
-  .ts-token { font-size: 14px; }
-  .ts-computed { font-size: 12px; }
-  .ts-badge { font-size: 11px; }
-  .ts-desc { font-size: 14px; }
-  .ts-err-msg { font-size: 14px; }
-  .ts-reset-btn { font-size: 14px; }
-  .comp-preview-label { font-size: 14px; }
-  .style-opt-name { font-size: 15px; }
-  .style-opt-desc { font-size: 14px; }
-  .live-form-label { font-size: 14px; }
-  .btn-radius-card { font-size: 15px; }
-  .shadow-card { font-size: 14px; }
-  .shadow-token-list { font-size: 14px; }
-  .rule-input { font-size: 15px; }
-  .add-rule-btn { font-size: 15px; }
-  .prev-font-tag { font-size: 12px; }
-  .prev-font-name { font-size: 16px; }
-  .prev-scale-token { font-size: 12px; }
-  .prev-scale-px { font-size: 11px; }
-  .prev-comp-label { font-size: 12px; }
-  .mobile-panel-btn { font-size: 16px; }
+  .mobile-panel-btn { font-size: 13px; }
   .mobile-tab-prev,
-  .mobile-tab-next { font-size: 16px; }
-  .mobile-tab-counter { font-size: 16px; }
+  .mobile-tab-next { font-size: 13px; }
+  .mobile-tab-counter { font-size: 13px; }
 }
 
 /* ── Mobile: < 600px — overrides ── */

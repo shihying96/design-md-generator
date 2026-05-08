@@ -109,6 +109,7 @@ const PRESETS = {
 /* ── Tab State ── */
 let currentTab = 1;
 const TOTAL_TABS = 5;
+const TAB_NAMES = ['品牌風格', '色彩系統', '字體與排版', '元件樣式', '使用規範'];
 let currentRightTab = 'mockup';
 let currentPresetName = 'tech';
 
@@ -157,6 +158,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initShadow();
   initDosDonts();
   initPresets();
+  handlePresetDropdownPlacement();
+  window.addEventListener('resize', handlePresetDropdownPlacement);
   initExportButtons();
   initToolbar();
   initMockHamburger();
@@ -484,6 +487,22 @@ function switchTab(n) {
   // Update mobile tab counter
   const counter = document.getElementById('mobile-tab-counter');
   if (counter) counter.textContent = `${n} / ${TOTAL_TABS}`;
+
+  // Update step progress bar
+  const stepName = document.getElementById('step-name');
+  const stepCount = document.getElementById('step-count');
+  const stepFill = document.getElementById('step-progress-fill');
+  if (stepName) stepName.textContent = TAB_NAMES[n - 1];
+  if (stepCount) stepCount.textContent = `${n} / ${TOTAL_TABS}`;
+  if (stepFill) stepFill.style.width = `${(n / TOTAL_TABS) * 100}%`;
+
+  // Reset scroll position to top on tab switch
+  const wrapper = document.querySelector('.tab-content-wrapper');
+  if (wrapper) wrapper.scrollTop = 0;
+
+  // Hide next button on last tab
+  const nextBtn = document.getElementById('mobile-tab-next');
+  if (nextBtn) nextBtn.style.visibility = n >= TOTAL_TABS ? 'hidden' : '';
 }
 
 /* ── Color Pickers ── */
@@ -932,6 +951,24 @@ function renderRuleList(type) {
     item.appendChild(removeBtn);
     container.appendChild(item);
   });
+}
+
+/* ── Preset Dropdown Placement (mobile vs desktop) ── */
+function handlePresetDropdownPlacement() {
+  const wrapper = document.querySelector('.preset-select-wrapper');
+  if (!wrapper) return;
+  const mobileField = document.getElementById('mobile-theme-field');
+  const toolbar = document.getElementById('main-toolbar');
+  const resetBtn = document.getElementById('btn-reset');
+  if (window.innerWidth < 1240) {
+    if (mobileField && wrapper.parentNode !== mobileField) {
+      mobileField.appendChild(wrapper);
+    }
+  } else {
+    if (toolbar && wrapper.parentNode !== toolbar) {
+      toolbar.insertBefore(wrapper, resetBtn);
+    }
+  }
 }
 
 /* ── Presets ── */

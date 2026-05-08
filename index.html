@@ -4,6 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Design MD 產生器</title>
+  <meta name="description" content="快速建立你的設計系統。Design MD 產生器透過設定品牌風格與元件規範，自動產出 DESIGN.md，讓設計與開發維持一致。">
+  <meta property="og:title" content="Design MD 產生器">
+  <meta property="og:description" content="快速建立你的設計系統。Design MD 產生器透過設定品牌風格與元件規範，自動產出 DESIGN.md，讓設計與開發維持一致。">
+  <meta property="og:image" content="https://tool-design-md.pages.dev/design-md-logo.svg">
+  <meta property="og:url" content="https://tool-design-md.pages.dev">
+  <meta property="og:type" content="website">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+TC:wght@400;500&family=Noto+Serif+TC:wght@400;600&family=Playfair+Display:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
@@ -111,11 +117,28 @@
         </button>
       </nav>
 
+      <!-- Mobile Step Progress -->
+      <div class="step-progress" id="step-progress">
+        <div class="step-progress-header">
+          <span class="step-name" id="step-name">品牌風格</span>
+          <span class="step-count" id="step-count">1 / 5</span>
+        </div>
+        <div class="step-progress-bar">
+          <div class="step-progress-fill" id="step-progress-fill"></div>
+        </div>
+      </div>
+
       <!-- Tab Content -->
       <div class="tab-content-wrapper flex-1 overflow-y-auto overflow-x-hidden p-5 min-h-0">
 
         <!-- ── Section 1: Brand Style ── -->
         <section class="tab-pane active" id="tab-1">
+          <!-- Mobile-only theme dropdown field (desktop shows toolbar instead) -->
+          <div class="mobile-theme-field" id="mobile-theme-field">
+            <p class="mobile-theme-label">主題</p>
+            <!-- .preset-select-wrapper moved here by JS on mobile -->
+          </div>
+
           <div class="mb-8">
             <h2 class="text-base font-semibold mb-1">品牌風格與氛圍</h2>
             <p class="text-xs text-ui-text3">定義品牌的整體調性，影響所有後續設計決策。</p>
@@ -742,8 +765,8 @@
       <div class="preview-panel" id="rtab-preview" style="display:none">
 
         <div class="px-6 py-5 border-b border-ui-border bg-ui-surface mb-2">
-          <h3 class="text-sm font-bold mb-1">色彩系統</h3>
-          <p class="text-xs text-ui-text2 mb-4">完整色板，點擊任一色塊可複製 Hex 值</p>
+          <h3 class="text-sm font-bold mb-2">色彩系統</h3>
+          <p class="text-xs text-ui-text3 mb-4">完整色板，點擊任一色塊可複製 Hex 值</p>
 
           <div class="mb-4">
             <div class="flex items-baseline gap-2 mb-2">

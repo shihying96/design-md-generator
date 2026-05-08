@@ -108,7 +108,19 @@ body {
   letter-spacing: 0;
   transition: background .15s, color .15s;
 }
-.tab-btn .tab-name { font-size: 12px; }
+.tab-btn .tab-name { font-size: 12px; font-weight: 500; }
+.tab-content-wrapper h2 { font-weight: 500 !important; }
+.tab-pane > div:not(:first-child) > h2 { margin-top: 8px; } /* extra breathing room before h2 when preceded by content */
+#panel-right h3 { font-weight: 500 !important; }
+
+/* ── rtab-preview: typographic hierarchy ── */
+#rtab-preview h3 { font-size: 15px !important; color: var(--ui-text); }
+/* Sub-labels: Primary / Secondary / Accent */
+#rtab-preview .flex.items-baseline > span:first-child {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  color: var(--ui-text) !important;
+}
 .tab-btn:hover { color: var(--ui-primary); }
 .tab-btn.active { color: var(--ui-primary); border-bottom-color: var(--ui-primary); }
 .tab-btn.active .tab-num { background: var(--ui-primary); color: #fff; font-weight: 600; }
@@ -1499,9 +1511,46 @@ body.app-ready {
 .mobile-bottom-bar     { display: none; }
 .mobile-tab-nav        { display: none; }
 .mobile-header-reset   { display: none; }
+.mobile-theme-field    { display: none; }
 
 /* ── Desktop-hidden elements ── */
 .rtab-mobile { display: none; }
+
+/* ── Step Progress (mobile only) ── */
+.step-progress {
+  display: none;
+  padding: 12px 16px 10px;
+  border-bottom: 1px solid var(--ui-border);
+  flex-shrink: 0;
+}
+.step-progress-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.step-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ui-primary);
+}
+.step-count {
+  font-size: 12px;
+  color: var(--ui-text2);
+}
+.step-progress-bar {
+  height: 3px;
+  background: var(--ui-border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.step-progress-fill {
+  height: 100%;
+  width: 20%;
+  background: var(--ui-primary);
+  border-radius: 99px;
+  transition: width 0.3s ease;
+}
 
 /* ── Mobile Panel Switcher base styles ── */
 .mobile-panel-btn {
@@ -1550,41 +1599,70 @@ body.app-ready {
 .mobile-tab-prev .lucide, .mobile-tab-next .lucide { width: 15px; height: 15px; }
 .mobile-tab-counter { font-size: 13px; color: var(--ui-text3); font-weight: 500; }
 
-/* ── Responsive (< 1024px) ── */
-@media (max-width: 1023px) {
+
+/* ── Responsive (< 1240px) ── */
+@media (max-width: 1239px) {
   html {
     padding: 0;
     background: var(--ui-bg);
     align-items: stretch;
+    height: 100%;
+    overflow: hidden;
+    scrollbar-width: none;
+  }
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none;
   }
 
   body {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     width: 100%;
     max-width: 100%;
-    height: 100dvh;
     border-radius: 0;
     box-shadow: none;
-    overflow: hidden;
-    padding: 0 16px; /* 統一側邊基準，所有子元素對齊用 */
+    overflow: hidden !important;
+    padding: 72px 16px calc(64px + env(safe-area-inset-bottom, 0px)); /* top = header height, bottom = mobile nav height + safe area */
     box-sizing: border-box;
+    display: flex !important;
+    flex-direction: column !important;
   }
 
-  /* Header: 補回負 margin 讓它全寬 */
+  /* Header: fixed at top */
   header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
     border-radius: 0;
     padding: 10px 16px;
     height: 72px !important;
-    margin-left: -16px;
-    margin-right: -16px;
   }
 
-  /* Toolbar: 撐滿 body 內容區 */
-  #main-toolbar {
-    width: 100% !important;
-    margin: 10px 0 0 !important;
-    box-sizing: border-box;
+  /* Toolbar: hidden on mobile/tablet (preset moved into tab-1) */
+  #main-toolbar { display: none !important; }
+
+  /* Mobile theme field: shown inside tab-1 */
+  .mobile-theme-field {
+    display: block;
+    margin-bottom: 40px; /* larger than field-to-field gap (32px) to show hierarchy */
   }
-  #main-toolbar .preset-select-wrapper { flex: 1; }
+  .mobile-theme-label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #111;
+    margin-bottom: 8px;
+    display: block;
+  }
+  #mobile-theme-field .preset-select-wrapper {
+    width: 200px !important;
+    max-width: 100% !important;
+  }
 
   /* Mobile panel switcher: 同寬 + 與 toolbar 間距 */
   .mobile-panel-switcher {
@@ -1603,12 +1681,14 @@ body.app-ready {
 
   /* Main layout: 側邊不加 padding（body 已處理） */
   main {
+    flex: 1 1 0 !important;
     flex-direction: column !important;
     padding: 8px 0 !important;
     gap: 0 !important;
     width: 100% !important;
-    min-height: 0;
+    min-height: 0 !important;
     overflow: hidden;
+    touch-action: pan-y;
   }
 
   /* preset select wrapper 不寫死寬度 */
@@ -1618,13 +1698,25 @@ body.app-ready {
   .web-mockup-wrap, #web-mockup-root { max-width: 100%; overflow-x: hidden; }
   .preview-panel, .md-panel { max-width: 100%; overflow-x: hidden; }
 
+  /* Tab content wrapper: enable native scroll on iOS, hide scrollbar */
+  .tab-content-wrapper {
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+    scrollbar-width: none !important;
+    padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+  .tab-content-wrapper::-webkit-scrollbar { display: none; }
+
   #panel-left {
-    flex: 1;
+    flex: 1 1 0 !important;
     width: 100%;
     min-width: 0;
-    min-height: 0;
+    min-height: 0 !important;
     overflow: hidden;
     border-radius: 8px;
+    touch-action: pan-y;
   }
 
   #panel-right {
@@ -1638,26 +1730,28 @@ body.app-ready {
   /* 預覽模式切換 */
   body.mobile-preview #panel-left  { display: none; }
   body.mobile-preview #panel-right { display: flex; }
+  body.mobile-preview .mobile-tab-nav { display: none; }
 
-  /* Left tab nav: active 顯示 num+name（row），inactive 只顯示 num */
-  .tab-btn { flex-direction: row; gap: 6px; padding: 0 10px; }
-  .tab-btn.active { padding: 0 14px; }
-
-  /* Mobile tab nav (bottom of left panel) */
+  /* Mobile tab nav: fixed at bottom like native navigation */
   .mobile-tab-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 12px;
+    padding: 10px 16px;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
     border-top: 1px solid var(--ui-border);
-    flex-shrink: 0;
     background: var(--ui-surface);
   }
 
   /* Right sub-tabs */
   .rtab-desktop { display: none; }
   .rtab-mobile  { display: inline; }
-  .right-tab { font-size: 12px; padding: 5px 10px; }
+  .right-tab { font-size: 15px; padding: 5px 10px; }
   .right-tab .lucide { width: 14px; height: 14px; }
 
   /* Mobile bottom bar */
@@ -1673,7 +1767,150 @@ body.app-ready {
     flex: 1;
     justify-content: center;
     padding: 10px 14px;
-    font-size: 13px;
+    font-size: 16px;
   }
   .mobile-bottom-bar .out-btn .lucide { width: 14px; height: 14px; }
+
+  /* 上方複製/下載按鈕在手機版隱藏（底部 bar 已有） */
+  #md-actions { display: none !important; }
+
+
+  /* ── Mobile font-size overrides: 13px base → 16px (scale ×16/13) ── */
+  body { font-size: 1.077rem; }
+  /* tab-btn keeps desktop sizes (tablist hidden at < 600px, tablet matches desktop) */
+  .preset-btn { font-size: 15px; }
+  .custom-select-trigger { font-size: 16px; }
+  .csel-option { font-size: 16px; }
+  .preset-name { font-size: 16px; }
+  .toolbar-action-btn { font-size: 15px; }
+  .nav-arrow { font-size: 15px; }
+  .text-input { font-size: 16px; }
+  .select-input { font-size: 16px; }
+  .hex-input { font-size: 16px; }
+  .checkbox-item { font-size: 16px; }
+  .scale-input { font-size: 16px; }
+  .wcag-on { font-size: 11px; }
+  .wcag-combo { font-size: 15px; }
+  .wcag-ratio { font-size: 16px; }
+  .wcag-badge { font-size: 12px; }
+  .wcag-suggestion { font-size: 14px; }
+  .variant-swatch::after { font-size: 11px; }
+  .ts-ratio-opt span { font-size: 14px; }
+  .ts-token { font-size: 14px; }
+  .ts-computed { font-size: 12px; }
+  .ts-badge { font-size: 11px; }
+  .ts-desc { font-size: 14px; }
+  .ts-err-msg { font-size: 14px; }
+  .ts-reset-btn { font-size: 14px; }
+  .comp-preview-label { font-size: 14px; }
+  .style-opt-name { font-size: 15px; }
+  .style-opt-desc { font-size: 14px; }
+  .live-form-label { font-size: 14px; }
+  .btn-radius-card { font-size: 15px; }
+  .shadow-card { font-size: 14px; }
+  .shadow-token-list { font-size: 14px; }
+  .rule-input { font-size: 15px; }
+  .add-rule-btn { font-size: 15px; }
+  .prev-font-tag { font-size: 12px; }
+  .prev-font-name { font-size: 16px; }
+  .prev-scale-token { font-size: 12px; }
+  .prev-scale-px { font-size: 11px; }
+  .prev-comp-label { font-size: 12px; }
+  .mobile-panel-btn { font-size: 16px; }
+  .mobile-tab-prev,
+  .mobile-tab-next { font-size: 16px; }
+  .mobile-tab-counter { font-size: 16px; }
+}
+
+/* ── Mobile: < 600px — overrides ── */
+@media (max-width: 599px) {
+  /* Tab nav → progress bar */
+  [role="tablist"] { display: none !important; }
+  .step-progress { display: block !important; }
+
+  /* 編輯/預覽 switcher 與 panel 接合：switcher 上圓角、panel 移除上邊框 */
+  .mobile-panel-switcher {
+    margin: 8px 0 0 !important;
+    border: 1px solid var(--ui-border);
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    background: var(--ui-surface);
+    overflow: hidden;
+  }
+  main { padding-top: 0 !important; }
+  #panel-left, #panel-right {
+    border-top: none !important;
+    border-radius: 0 0 8px 8px !important;
+  }
+
+  .mobile-panel-btn {
+    height: 44px;
+    padding: 0 8px;
+    background: #F5F5F5;
+    color: #888888;
+    border-bottom: 2px solid transparent;
+    font-size: 13px;
+  }
+  .mobile-panel-btn:first-child {
+    border-right: 0.5px solid var(--ui-border);
+  }
+  .mobile-panel-btn .lucide {
+    width: 13px;
+    height: 13px;
+  }
+  .mobile-panel-btn.active {
+    background: #FFFFFF;
+    color: var(--ui-primary);
+    border-bottom-color: var(--ui-primary);
+  }
+
+  /* Step progress styling */
+  .step-progress {
+    padding: 16px 12px 10px;
+  }
+  .step-progress-bar {
+    background: #E0E0E0;
+    margin-top: 6px;
+  }
+  .step-progress-fill {
+    background: var(--ui-primary);
+  }
+  .step-name {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ui-primary);
+  }
+  .step-count {
+    font-size: 11px;
+    color: #888888;
+  }
+
+  /* Bottom nav - capsule style */
+  .mobile-tab-nav {
+    background: #FFFFFF;
+    border-top: 1px solid #E8E8E8;
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.06);
+    padding: 10px 12px;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+  }
+  .mobile-tab-prev {
+    background: transparent;
+    border: 0.5px solid #E0E0E0;
+    border-radius: 99px;
+    color: #888888;
+    padding: 10px 18px;
+    font-size: 13px;
+  }
+  .mobile-tab-next {
+    background: var(--ui-primary);
+    border: none;
+    border-radius: 99px;
+    color: #FFFFFF;
+    padding: 10px 22px;
+    font-size: 13px;
+  }
+  .mobile-tab-counter {
+    font-size: 11px;
+    color: #888888;
+  }
 }

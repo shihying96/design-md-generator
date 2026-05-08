@@ -1949,4 +1949,7 @@ body.app-ready {
 
   /* Standard Tailwind text utilities < 14px */
   .text-xs { font-size: 0.875rem !important; }
+
+  /* Prevent iOS auto-zoom on input focus (triggers when font-size < 16px) */
+  input, textarea, select { font-size: 1rem !important; }
 }

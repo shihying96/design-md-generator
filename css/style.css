@@ -236,7 +236,7 @@ body {
   font-size: 0.75rem;
   font-weight: 500;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   background: transparent;
   color: var(--ui-text2);
   cursor: pointer;
@@ -1606,7 +1606,7 @@ body.app-ready {
   gap: 6px;
   padding: 9px 16px;
   border: none;
-  border-radius: 8px;
+  border-radius: 99px;
   font-size: 0.8125rem;
   font-weight: 500;
   cursor: pointer;

@@ -375,7 +375,33 @@ body.app-ready {
   transition: all .15s;
   user-select: none;
 }
-.radio-item input[type="radio"] { width: 14px; height: 14px; accent-color: var(--ui-primary); cursor: pointer; }
+.radio-item input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid var(--ui-border2);
+  border-radius: 50%;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all .15s;
+  position: relative;
+}
+.radio-item input[type="radio"]::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border-radius: 50%;
+  background: var(--ui-primary);
+  opacity: 0;
+  transition: opacity .15s;
+}
+.radio-item input[type="radio"]:checked {
+  border-color: var(--ui-primary);
+}
+.radio-item input[type="radio"]:checked::after {
+  opacity: 1;
+}
 .radio-item:has(input:checked) { border-color: var(--ui-primary); background: color-mix(in srgb, var(--ui-primary) 5%, transparent); }
 
 /* ── WCAG Panel ── */
@@ -1060,7 +1086,7 @@ body.app-ready {
 .web-ghost-btn { font-size: 0.8125rem; font-weight: 500; background: none; border: none; cursor: default; font-family: inherit; opacity: .7; }
 .web-hero-right { width: 200px; flex-shrink: 0; position: relative; }
 .web-hero-card {
-  background: #fff;
+  background: var(--mk-surface);
   border-radius: var(--mk-card-radius, 12px);
   padding: 16px;
   box-shadow: 0 1px 4px rgba(0,0,0,.08), 0 8px 24px rgba(0,0,0,.10);
@@ -1113,7 +1139,7 @@ body.app-ready {
   gap: 14px;
 }
 .mock-feat-card {
-  background: #fff;
+  background: var(--mk-surface);
   border-radius: var(--mk-card-radius);
   padding: 18px 16px;
   box-shadow: var(--mk-shadow);
@@ -1132,7 +1158,7 @@ body.app-ready {
   align-items: center;
 }
 .mock-price-card {
-  background: #fff;
+  background: var(--mk-surface);
   border-radius: var(--mk-card-radius);
   padding: 20px 16px 16px;
   box-shadow: var(--mk-shadow);
@@ -1155,7 +1181,7 @@ body.app-ready {
   font-weight: 700;
   padding: 3px 10px;
   background: var(--mk-accent);
-  color: #fff;
+  color: var(--mk-accent-text);
   border-radius: 20px;
   white-space: nowrap;
   letter-spacing: .04em;
@@ -1188,7 +1214,7 @@ body.app-ready {
 .mock-price-btn-primary { background: #fff; color: var(--mk-primary); }
 .mock-price-btn-outline {
   background: transparent;
-  border: 1.5px solid rgba(0,0,0,.18);
+  border: var(--mk-outline-border);
   color: var(--mk-text);
 }
 .mock-price-featured .mock-price-btn-outline {
@@ -1206,14 +1232,14 @@ body.app-ready {
   font-size: 0.75rem;
   color: var(--mk-text);
   opacity: .45;
-  background: #fff;
+  background: var(--mk-surface);
   font-family: inherit;
   cursor: default;
   transition: border-radius .15s;
 }
 .mock-form-textarea { height: 64px; }
 .mock-input-bordered {
-  border: 1.5px solid rgba(0,0,0,.15);
+  border: var(--mk-outline-border);
   border-radius: var(--mk-input-radius, 6px);
 }
 .mock-input-underline {

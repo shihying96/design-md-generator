@@ -31,31 +31,19 @@ const state = {
 
 /* ── Preset Color Labels ── */
 const PRESET_COLOR_LABELS = {
-  minimal:   '黑白',
-  tech:      '藍灰',
-  warm:      '暖金',
-  corporate: '藏藍金',
-  forest:    '林間'
+  blueprint: '藍圖',
+  minimal:   '極簡',
+  amber:     '琥珀',
+  forest:    '林間',
+  glacier:   '冰川',
+  starnight: '星夜'
 };
 
 /* ── Presets ── */
 const PRESETS = {
-  minimal: {
-    styles: ['簡約', '專業'],
-    brandPersonality: '深炭黑與近白的精確對比，中性灰階構建可信任的視覺秩序',
-    colorPrimary: '#18181B', colorSecondary: '#3F3F46', colorAccent: '#71717A', colorBg: '#FAFAFA', colorText: '#09090B',
-    fontZh: 'Noto Sans TC', fontEn: 'Inter',
-    sizes: { xs: 12, sm: 14, base: 16, lg: 20, xl: 24, '2xl': 36, '3xl': 52 },
-    baseFontSize: 16, typeScale: 1.2, sizeOverrides: {},
-    btnRadius: 10, inputStyle: 'bordered', cardStyle: 'bordered',
-    spacingBase: 8, maxWidth: 1136, gridCols: 12,
-    shadowStyle: 'soft', lineHeight: 'normal',
-    dos:   ['以 #18181B 深炭黑為主色，#FAFAFA 為底色——冷靜對比是品牌基調', '次要介面使用 #F4F4F5 淺灰表面搭配 #18181B 深色文字，層次分明', '中性灰階（zinc 系）是唯一的色彩語言，不引入任何有彩度的顏色'],
-    donts: ['不要使用純黑（#000000）或純白（#FFFFFF）——略帶溫度的炭黑與近白才是正確的', '不要引入任何有色調的 UI 元素——介面嚴格限於黑、白、灰', '不要讓陰影過深或過重——輕柔的層次感才符合這套中性美學']
-  },
-  tech: {
-    styles: ['科技', '精準', '冷靜'],
-    brandPersonality: '極簡、工程精神，帶有低調質感與細節設計，呈現沉穩且可信賴的科技感',
+  blueprint: {
+    styles: ['科技', '精準', '可信賴'],
+    brandPersonality: '清晰的藍色視覺語言建立科技感，極簡留白與精準層次傳遞值得信賴的品牌形象',
     colorPrimary: '#2061F7', colorSecondary: '#0EA5E9', colorAccent: '#2F3237', colorBg: '#FAFAFB', colorText: '#1A1D22',
     fontZh: 'Noto Sans TC', fontEn: 'Inter',
     sizes: { xs: 12, sm: 14, base: 16, lg: 20, xl: 24, '2xl': 32, '3xl': 48 },
@@ -63,47 +51,73 @@ const PRESETS = {
     btnRadius: 6, inputStyle: 'bordered', cardStyle: 'bordered',
     spacingBase: 8, maxWidth: 1280, gridCols: 12,
     shadowStyle: 'soft', lineHeight: 'normal',
-    dos:   ['以 #2061F7 藍色作為主色，搭配 #FAFAFB 極淺底色——建立清晰的品牌識別', '大量留白傳達精準感——空間即是設計語言', '文字層次依賴字重與大小，而非顏色變化'],
-    donts: ['不要使用過於鮮豔的配色組合——低調質感是品牌核心', '不要堆疊多層視覺效果——每個畫面只傳達一個核心訊息', '不要讓陰影過重——輕柔層次感才符合這套科技美學']
+    dos:   ['以 #2061F7 藍色為主色建立識別，大量留白強化精準感', '文字層次依靠字重與大小而非顏色變化，保持視覺純粹', '排版保持規律與一致性，空間即是設計語言'],
+    donts: ['不要使用過多彩度的配色——藍色是唯一的品牌色', '不要堆疊多層視覺效果——每個畫面只傳達一個核心訊息', '不要讓陰影過重——輕柔層次才符合這套科技美學']
   },
-  warm: {
-    styles: ['溫暖', '活潑'],
-    brandPersonality: '暖色工藝美學，用玩味互動與命名色票讓產品充滿人情味',
-    colorPrimary: '#fbbd41', colorSecondary: '#F97316', colorAccent: '#078a52', colorBg: '#faf9f7', colorText: '#000000',
+  minimal: {
+    styles: ['極簡', '純粹', '克制'],
+    brandPersonality: '純黑與純白的極致對比，以最少的顏色傳遞最強的視覺張力，克制即是力量',
+    colorPrimary: '#171717', colorSecondary: '#F5F5F5', colorAccent: '#E5E5E5', colorBg: '#FFFFFF', colorText: '#171717',
+    fontZh: 'Noto Sans TC', fontEn: 'Inter',
+    sizes: { xs: 12, sm: 14, base: 16, lg: 18, xl: 22, '2xl': 28, '3xl': 40 },
+    baseFontSize: 16, typeScale: 1.2, sizeOverrides: {},
+    btnRadius: 2, inputStyle: 'bordered', cardStyle: 'bordered',
+    spacingBase: 8, maxWidth: 1280, gridCols: 12,
+    shadowStyle: 'none', lineHeight: 'normal',
+    dos:   ['嚴格限制黑、白、灰三色——任何有彩度的顏色都是干擾', '字重、間距、留白是唯一的設計語言', '每個元素的存在都必須有明確理由'],
+    donts: ['不要引入任何有彩度的顏色——純粹的黑白才是品牌核心', '不要使用裝飾性元素或漸層效果', '不要讓陰影過深——輕盈的層次才符合極簡美學']
+  },
+  amber: {
+    styles: ['溫暖', '活力', '自然'],
+    brandPersonality: '金黃琥珀色傳遞溫暖與活力，奶油底色帶來親切感，整體散發自然且充滿能量的品牌個性',
+    colorPrimary: '#E8A800', colorSecondary: '#F5C842', colorAccent: '#FDE99A', colorBg: '#FAF6EC', colorText: '#2A1E00',
     fontZh: 'Noto Sans TC', fontEn: 'DM Sans',
     sizes: { xs: 12, sm: 16, base: 18, lg: 20, xl: 32, '2xl': 44, '3xl': 60 },
     baseFontSize: 18, typeScale: 1.2, sizeOverrides: {},
-    btnRadius: 20, inputStyle: 'bordered', cardStyle: 'elevated',
+    btnRadius: 16, inputStyle: 'bordered', cardStyle: 'elevated',
     spacingBase: 8, maxWidth: 1280, gridCols: 12,
     shadowStyle: 'medium', lineHeight: 'relaxed',
-    dos:   ['以暖奶油色（#faf9f7）為頁面底色——暖調質感是品牌靈魂，不可替代', '標題 600 字重、UI 500、內文 400——嚴格三層字重系統不混用', '使用 Matcha、Lemon、Slushie 具名色票做大面積區塊背景，大膽用色不小氣'],
-    donts: ['不要用冷灰或純白底色——暖奶油（#faf9f7）的溫度感是品牌核心識別', '不要用柔焦陰影——Clay 使用硬偏移陰影（-7px 7px）與多層 inset，不是模糊漸層', '不要讓按鈕圓角超過 4px——幾何邊角是有別於圓潤品牌的設計語言']
-  },
-  corporate: {
-    styles: ['專業', '簡約'],
-    brandPersonality: '沉穩、可信賴，值得長期合作的夥伴',
-    colorPrimary: '#1e3a5f', colorSecondary: '#2D6A9F', colorAccent: '#c5922e', colorBg: '#f8f9fa', colorText: '#1a1a2e',
-    fontZh: 'Noto Serif TC', fontEn: 'Plus Jakarta Sans',
-    sizes: { xs: 12, sm: 14, base: 16, lg: 18, xl: 22, '2xl': 28, '3xl': 40 },
-    baseFontSize: 16, typeScale: 1.2, sizeOverrides: {},
-    btnRadius: 3, inputStyle: 'bordered', cardStyle: 'elevated',
-    spacingBase: 8, maxWidth: 1280, gridCols: 12,
-    shadowStyle: 'none', lineHeight: 'normal',
-    dos:   ['資訊架構要清晰，層次分明', '保持色彩使用的保守與一致', '按鈕文字要明確說明行動'],
-    donts: ['不要使用過於鮮艷或前衛的配色', '不要讓排版看起來雜亂', '不要省略重要的資訊說明']
+    dos:   ['以 #E8A800 琥珀金為主色，搭配 #FAF6EC 奶油底色建立溫暖基調', '輔助色 #F5C842 用於 hover 與強調，保持暖色系一致', '大標題可使用較粗字重，呼應品牌的活力感'],
+    donts: ['不要引入冷色調（藍、灰）——溫暖感是品牌核心', '不要讓文字顏色對比過低——深棕 #2A1E00 確保可讀性', '不要讓整體看起來過於甜膩——克制輔助色的使用比例']
   },
   forest: {
-    styles: ['自然', '沉穩'],
-    brandPersonality: '深邃林綠建立品牌信任，純白底色帶來清爽呼吸感，傳遞永續與踏實的品牌價值',
-    colorPrimary: '#2C3B31', colorSecondary: '#FFFFFF', colorAccent: '#7A9E7E', colorBg: '#FFFFFF', colorText: '#111827',
-    fontZh: 'Noto Sans TC', fontEn: 'Plus Jakarta Sans',
-    sizes: { xs: 11, sm: 13, base: 16, lg: 19, xl: 23, '2xl': 28, '3xl': 33 },
+    styles: ['自然', '清新', '沉穩'],
+    brandPersonality: '清新森林綠帶來呼吸感與自然韻味，淺灰底色搭配深綠文字構建沉穩可信的自然視覺秩序',
+    colorPrimary: '#6B8F71', colorSecondary: '#3D5C42', colorAccent: '#B8CCBA', colorBg: '#F5F7F5', colorText: '#1C2B1E',
+    fontZh: 'jfOpenHuninn', fontEn: 'Plus Jakarta Sans',
+    sizes: { xs: 11, sm: 13, base: 16, lg: 19, xl: 23, '2xl': 28, '3xl': 36 },
     baseFontSize: 16, typeScale: 1.2, sizeOverrides: {},
-    btnRadius: 6, inputStyle: 'bordered', cardStyle: 'elevated',
+    btnRadius: 8, inputStyle: 'bordered', cardStyle: 'elevated',
     spacingBase: 8, maxWidth: 1280, gridCols: 12,
     shadowStyle: 'soft', lineHeight: 'normal',
-    dos:   ['以 #2C3B31 深森林綠作為主色——展現品牌的自然感與可靠性', '純白底色是唯一背景色——保持乾淨呼吸感，避免使用米白或米灰', '以 #7A9E7E 鼠尾草綠作為點綴——少量使用於 tag、badge、hover 狀態'],
-    donts: ['不要引入暖色調（棕、橘、黃）——冷靜的自然綠系是品牌核心', '不要讓主色大面積出現在文字區——深綠適合作為按鈕、強調元素，而非大段文字色', '不要使用純黑文字——#111827 帶有微藍的深色更符合品牌溫度']
+    dos:   ['以 #6B8F71 森林綠為主色，傳遞品牌的自然感與親近感', '底色 #F5F7F5 帶有淡淡綠調，與主色系一致而不搶眼', '以 #B8CCBA 淺綠作為點綴，用於 tag、badge、hover 狀態'],
+    donts: ['不要引入暖色調（棕、橘、黃）——冷靜的自然綠系是品牌核心', '不要讓主色大面積出現在文字區——森林綠適合按鈕與強調，而非大段文字', '不要使用純黑文字——#1C2B1E 帶有綠調的深色更符合品牌溫度']
+  },
+  glacier: {
+    styles: ['冷靜', '深邃', '未來感'],
+    brandPersonality: '深海藍底色搭配冰川青主色，傳遞冷靜深邃的品牌氣質，在黑暗中散發精準的光芒',
+    colorPrimary: '#7DD3FC', colorSecondary: '#38BDF8', colorAccent: '#0C4A6E', colorBg: '#0A0F1A', colorText: '#E2E8F0',
+    fontZh: 'Noto Sans TC', fontEn: 'Inter',
+    sizes: { xs: 12, sm: 14, base: 16, lg: 20, xl: 24, '2xl': 32, '3xl': 48 },
+    baseFontSize: 16, typeScale: 1.2, sizeOverrides: {},
+    btnRadius: 6, inputStyle: 'bordered', cardStyle: 'bordered',
+    spacingBase: 8, maxWidth: 1280, gridCols: 12,
+    shadowStyle: 'soft', lineHeight: 'normal',
+    dos:   ['以 #67E8F9 冰川青為主色，在深色背景上形成強烈視覺焦點', '善用 #1E293B 深藍做為卡片與區塊的背景層次', '文字 #E2E8F0 保持高對比，確保深色背景下的可讀性'],
+    donts: ['不要在深色背景上使用低對比文字——可讀性是首要條件', '不要引入暖色調——冷靜深邃是品牌靈魂', '不要讓介面元素太擁擠——深色版面需要更多呼吸空間']
+  },
+  starnight: {
+    styles: ['優雅', '神秘', '深邃'],
+    brandPersonality: '深邃星空底色搭配星光藍紫，傳遞優雅神秘的品牌個性，如夜空中繁星的安靜力量',
+    colorPrimary: '#5C7CFA', colorSecondary: '#A5B4FC', colorAccent: '#1E2952', colorBg: '#080C18', colorText: '#E8ECFF',
+    fontZh: 'Noto Sans TC', fontEn: 'Inter',
+    sizes: { xs: 12, sm: 14, base: 16, lg: 20, xl: 24, '2xl': 32, '3xl': 48 },
+    baseFontSize: 16, typeScale: 1.25, sizeOverrides: {},
+    btnRadius: 8, inputStyle: 'bordered', cardStyle: 'elevated',
+    spacingBase: 8, maxWidth: 1280, gridCols: 12,
+    shadowStyle: 'soft', lineHeight: 'relaxed',
+    dos:   ['以 #5C7CFA 星光藍為主色，搭配 #080C18 深夜底色建立品牌識別', '輔助色 #A5B4FC 用於次要文字與說明，層次豐富而不混亂', '文字 #E8ECFF 帶有微藍，與整體色調和諧統一'],
+    donts: ['不要在深色背景上使用低對比文字——可讀性優先', '不要引入暖色或高彩度顏色——星夜的靜謐感是品牌核心', '不要過度使用輔助色 #A5B4FC——留給需要強調的地方']
   }
 };
 
@@ -112,7 +126,7 @@ let currentTab = 1;
 const TOTAL_TABS = 5;
 const TAB_NAMES = ['品牌風格', '色彩系統', '字體與排版', '元件樣式', '使用規範'];
 let currentRightTab = 'mockup';
-let currentPresetName = 'tech';
+let currentPresetName = 'blueprint';
 
 /* ── Dirty State Detection ── */
 let _presetBaseline = null; // snapshot taken after applyPreset finishes (post-recompute)
@@ -175,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initExportButtons();
   initToolbar();
   initMockHamburger();
-  applyPreset('tech');
+  applyPreset('blueprint');
 
   // 防止自訂選項卡觸發瀏覽器 focus-scroll
   // 瀏覽器 scroll-into-view 是同步的，早於 focus 事件；
@@ -468,9 +482,9 @@ function createPresetSwatches(preset) {
 
 /* ── Toolbar (Reset + Theme Toggle) ── */
 function initToolbar() {
-  // 重置：回到 tech 預設
+  // 重置：回到 blueprint 預設
   document.getElementById('btn-reset').addEventListener('click', () => {
-    applyPreset('tech');
+    applyPreset('blueprint');
     switchTab(1);
   });
 
@@ -1452,6 +1466,12 @@ function renderPreviewWebMockup() {
   const text = state.colorText;
   const pvars = generateVariants(p);
 
+  const [bgH, bgS, bgL] = hexToHsl(bg);
+  const isDark = bgL < 35;
+  const surface = isDark ? hslToHex(bgH, bgS, Math.min(bgL + 8, 100)) : '#FFFFFF';
+  const cardBorderColor = isDark ? 'rgba(255,255,255,.10)' : 'rgba(0,0,0,.09)';
+  const outlineBorder   = isDark ? '1px solid rgba(255,255,255,.12)' : '1px solid rgba(0,0,0,.15)';
+
   const root = document.getElementById('web-mockup-root');
   if (!root) return;
   root.style.fontFamily = `'${state.fontZh}', '${state.fontEn}', system-ui, sans-serif`;
@@ -1487,7 +1507,7 @@ function renderPreviewWebMockup() {
   const badge = document.getElementById('mock-hero-badge') || document.getElementById('mock-badge');
   if (badge) {
     badge.style.color = p;
-    badge.style.borderColor = pvars.light;
+    badge.style.borderColor = 'transparent';
     badge.style.background = pvars.light + '44';
   }
   const badgeDot = document.getElementById('mock-badge-dot');
@@ -1510,7 +1530,7 @@ function renderPreviewWebMockup() {
   const cardRadius = state.btnRadius <= 4 ? '8px' : state.btnRadius <= 12 ? '14px' : '20px';
   const elevated   = state.cardStyle === 'elevated';
   const cardShadow = elevated ? (shadowMap[state.shadowStyle] || '0 2px 8px rgba(0,0,0,.08)') : 'none';
-  const cardBorder = elevated ? 'none' : '1px solid rgba(0,0,0,.09)';
+  const cardBorder = elevated ? 'none' : `1px solid ${cardBorderColor}`;
 
   // Input style classes on mock form inputs
   root.querySelectorAll('.mock-form-input').forEach(el => {
@@ -1520,8 +1540,11 @@ function renderPreviewWebMockup() {
 
   root.style.setProperty('--mk-primary',      p);
   root.style.setProperty('--mk-primary-text', contrastingText(p));
-  root.style.setProperty('--mk-accent',       state.colorAccent);
-  root.style.setProperty('--mk-bg',           bg);
+  root.style.setProperty('--mk-accent',          state.colorAccent);
+  root.style.setProperty('--mk-accent-text',     contrastingText(state.colorAccent));
+  root.style.setProperty('--mk-bg',              bg);
+  root.style.setProperty('--mk-surface',         surface);
+  root.style.setProperty('--mk-outline-border',  outlineBorder);
   root.style.setProperty('--mk-text',         text);
   root.style.setProperty('--mk-btn-radius',   `${state.btnRadius}px`);
   root.style.setProperty('--mk-input-radius', `${Math.min(state.btnRadius, 8)}px`);
@@ -1589,7 +1612,8 @@ function buildColorScale(containerId, hex) {
 const ZH_FONT_LABELS = {
   'Noto Sans TC':  '思源黑體',
   'Noto Serif TC': '思源宋體',
-  'GenYoGothic TC': '源樣黑體'
+  'GenYoGothic TC': '源樣黑體',
+  'jfOpenHuninn': 'jf 粉圓'
 };
 
 function renderPreviewTypography() {

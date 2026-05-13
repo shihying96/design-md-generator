@@ -70,27 +70,27 @@ const PRESETS = {
   amber: {
     styles: ['溫暖', '活力', '自然'],
     brandPersonality: '金黃琥珀色傳遞溫暖與活力，奶油底色帶來親切感，整體散發自然且充滿能量的品牌個性',
-    colorPrimary: '#E8A800', colorSecondary: '#F5C842', colorAccent: '#FDE99A', colorBg: '#FAF6EC', colorText: '#2A1E00',
+    colorPrimary: '#8C6600', colorSecondary: '#F5C842', colorAccent: '#FDE99A', colorBg: '#FAF6EC', colorText: '#2A1E00',
     fontZh: 'Noto Sans TC', fontEn: 'DM Sans',
     sizes: { xs: 12, sm: 16, base: 18, lg: 20, xl: 32, '2xl': 44, '3xl': 60 },
     baseFontSize: 18, typeScale: 1.2, sizeOverrides: {},
     btnRadius: 16, inputStyle: 'bordered', cardStyle: 'elevated',
     spacingBase: 8, maxWidth: 1280, gridCols: 12,
     shadowStyle: 'medium', lineHeight: 'relaxed',
-    dos:   ['以 #E8A800 琥珀金為主色，搭配 #FAF6EC 奶油底色建立溫暖基調', '輔助色 #F5C842 用於 hover 與強調，保持暖色系一致', '大標題可使用較粗字重，呼應品牌的活力感'],
+    dos:   ['以 #8C6600 琥珀金為主色，搭配 #FAF6EC 奶油底色建立溫暖基調', '輔助色 #F5C842 用於 hover 與強調，保持暖色系一致', '大標題可使用較粗字重，呼應品牌的活力感'],
     donts: ['不要引入冷色調（藍、灰）——溫暖感是品牌核心', '不要讓文字顏色對比過低——深棕 #2A1E00 確保可讀性', '不要讓整體看起來過於甜膩——克制輔助色的使用比例']
   },
   forest: {
     styles: ['自然', '清新', '沉穩'],
     brandPersonality: '清新森林綠帶來呼吸感與自然韻味，淺灰底色搭配深綠文字構建沉穩可信的自然視覺秩序',
-    colorPrimary: '#6B8F71', colorSecondary: '#3D5C42', colorAccent: '#B8CCBA', colorBg: '#F5F7F5', colorText: '#1C2B1E',
+    colorPrimary: '#57755C', colorSecondary: '#3D5C42', colorAccent: '#B8CCBA', colorBg: '#F5F7F5', colorText: '#1C2B1E',
     fontZh: 'jfOpenHuninn', fontEn: 'Plus Jakarta Sans',
     sizes: { xs: 11, sm: 13, base: 16, lg: 19, xl: 23, '2xl': 28, '3xl': 36 },
     baseFontSize: 16, typeScale: 1.2, sizeOverrides: {},
     btnRadius: 8, inputStyle: 'bordered', cardStyle: 'elevated',
     spacingBase: 8, maxWidth: 1280, gridCols: 12,
     shadowStyle: 'soft', lineHeight: 'normal',
-    dos:   ['以 #6B8F71 森林綠為主色，傳遞品牌的自然感與親近感', '底色 #F5F7F5 帶有淡淡綠調，與主色系一致而不搶眼', '以 #B8CCBA 淺綠作為點綴，用於 tag、badge、hover 狀態'],
+    dos:   ['以 #57755C 森林綠為主色，傳遞品牌的自然感與親近感', '底色 #F5F7F5 帶有淡淡綠調，與主色系一致而不搶眼', '以 #B8CCBA 淺綠作為點綴，用於 tag、badge、hover 狀態'],
     donts: ['不要引入暖色調（棕、橘、黃）——冷靜的自然綠系是品牌核心', '不要讓主色大面積出現在文字區——森林綠適合按鈕與強調，而非大段文字', '不要使用純黑文字——#1C2B1E 帶有綠調的深色更符合品牌溫度']
   },
   glacier: {

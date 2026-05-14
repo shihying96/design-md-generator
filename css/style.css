@@ -1533,6 +1533,7 @@ body.app-ready {
 .mobile-tab-nav        { display: none; }
 .mobile-header-reset   { display: none; }
 .mobile-theme-field    { display: none; }
+#mobile-reset-bar      { display: none; }
 
 /* ── Desktop-hidden elements ── */
 .rtab-mobile { display: none; }
@@ -1685,6 +1686,35 @@ body.app-ready {
     max-width: 100% !important;
   }
 
+  /* Mobile reset bar: below header, right-aligned, shown when dirty */
+  #mobile-reset-bar {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 8px 0 0;
+    flex-shrink: 0;
+  }
+  #mobile-reset-bar .mobile-reset-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+    border: 1px solid var(--ui-border);
+    border-radius: 99px;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    background: transparent;
+    color: var(--ui-text2);
+    transition: background .15s, color .15s;
+    white-space: nowrap;
+  }
+  #mobile-reset-bar .mobile-reset-btn:hover {
+    background: var(--ui-surface2);
+    color: var(--ui-text);
+  }
+
   /* Mobile panel switcher: 同寬 + 與 toolbar 間距 */
   .mobile-panel-switcher {
     display: flex !important;
@@ -1804,6 +1834,21 @@ body.app-ready {
 
 /* ── Mobile: < 600px — overrides ── */
 @media (max-width: 599px) {
+  /* Do's & Don'ts: stack vertically on mobile */
+  #dos-donts-grid { grid-template-columns: 1fr !important; }
+
+  /* Spacing base options: equal width */
+  #spacing-base-options { display: grid !important; grid-template-columns: 1fr; }
+  #spacing-base-options .radio-item { width: 100%; }
+
+  /* Background/Text neutral cards: stack vertically, taller */
+  #prev-neutral-row { flex-direction: column; }
+  #prev-neutral-row .prev-neutral-card { min-height: 56px; height: auto; }
+
+  /* Color scale: horizontal scroll on mobile */
+  .color-scale-row { overflow-x: auto; overflow-y: hidden; }
+  .color-scale-row .scale-swatch { flex: 0 0 36px; }
+
   /* Tab nav → progress bar */
   [role="tablist"] { display: none !important; }
   .step-progress { display: block !important; }
@@ -1978,4 +2023,7 @@ body.app-ready {
 
   /* Prevent iOS auto-zoom on input focus (triggers when font-size < 16px) */
   input, textarea, select { font-size: 1rem !important; }
+
+  /* Rule inputs: cap at 0.875rem to prevent oversized text */
+  .rule-input { font-size: 0.875rem !important; }
 }

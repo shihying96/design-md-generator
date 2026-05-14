@@ -32,6 +32,14 @@
     </div>
   </header>
 
+  <!-- ── Mobile Reset Bar (below header, shown when dirty) ── -->
+  <div id="mobile-reset-bar" style="display:none">
+    <button id="btn-reset-mobile" class="mobile-reset-btn">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+      恢復預設
+    </button>
+  </div>
+
   <!-- ── Toolbar ── -->
   <div id="main-toolbar" class="flex items-center gap-2.5 px-[20px] py-2 mt-[16px] mb-[12px] mx-[40px] flex-shrink-0 border border-ui-border rounded-[12px] bg-ui-surface shadow-[0_1px_4px_rgba(0,0,0,0.06)]">
     <select id="preset-select" class="select-input text-xs">
@@ -461,7 +469,7 @@
 
           <div class="mb-8">
             <label class="block text-[0.75rem] font-medium mb-2">基礎間距單位</label>
-            <div class="flex gap-2.5 flex-wrap">
+            <div class="flex gap-2.5 flex-wrap" id="spacing-base-options">
               <label class="radio-item">
                 <input type="radio" name="spacingBase" value="4" id="spacing4">
                 <span class="text-[0.8125rem] flex gap-1.5 items-center">4px <em class="text-[0.6875rem] not-italic text-ui-text3">精細排版</em></span>
@@ -494,7 +502,7 @@
           <div class="mt-8 pt-6 border-t border-ui-border">
             <h3 class="text-[0.75rem] font-medium mb-4">Do's & Don'ts</h3>
             <p class="text-xs text-ui-text2 mb-4">寫下設計使用規範，幫助團隊保持一致性。</p>
-            <div class="grid grid-cols-2 gap-4">
+            <div id="dos-donts-grid" class="grid grid-cols-2 gap-4">
               <div>
                 <h3 class="text-[0.8125rem] font-bold mb-2.5 text-[#059669]">Do's</h3>
                 <div id="dos-list" class="flex flex-col gap-1.5 mb-2"></div>
@@ -759,7 +767,7 @@
             <div class="color-scale-row" id="scale-accent"></div>
           </div>
 
-          <div class="flex gap-2.5">
+          <div id="prev-neutral-row" class="flex gap-2.5">
             <div class="prev-neutral-card flex-1 cursor-pointer" id="prev-sw-bg" title="點擊複製">
               <span class="prev-neutral-name">Background</span>
               <span class="prev-neutral-hex" id="prev-hex-bg">#FFFFFF</span>

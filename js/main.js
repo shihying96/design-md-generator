@@ -154,8 +154,11 @@ function syncDirtyIndicator() {
   const sel = document.getElementById('preset-select');
   if (sel?._csync?.customSync) sel._csync.customSync();
   const dirty = isStateDirty();
+  const display = dirty ? '' : 'none';
   const resetBtn = document.getElementById('btn-reset');
-  if (resetBtn) resetBtn.style.display = dirty ? '' : 'none';
+  if (resetBtn) resetBtn.style.display = display;
+  const resetBar = document.getElementById('mobile-reset-bar');
+  if (resetBar) resetBar.style.display = display;
 }
 
 /* ── Init ── */
@@ -482,12 +485,9 @@ function createPresetSwatches(preset) {
 
 /* ── Toolbar (Reset + Theme Toggle) ── */
 function initToolbar() {
-  // 重置：回到 blueprint 預設
-  document.getElementById('btn-reset').addEventListener('click', () => {
-    applyPreset('blueprint');
-    switchTab(1);
-  });
-
+  const doReset = () => { applyPreset('blueprint'); };
+  document.getElementById('btn-reset').addEventListener('click', doReset);
+  document.getElementById('btn-reset-mobile')?.addEventListener('click', doReset);
 }
 
 /* ── Tab Switching ── */
@@ -495,7 +495,7 @@ function initTabs() {
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => switchTab(parseInt(btn.dataset.tab)));
   });
-
+  switchTab(currentTab);
 }
 
 function switchTab(n) {
@@ -526,8 +526,10 @@ function switchTab(n) {
   const wrapper = document.querySelector('.tab-content-wrapper');
   if (wrapper) wrapper.scrollTop = 0;
 
-  // Hide next button on last tab
+  // Hide prev button on first tab, next button on last tab
+  const prevBtn = document.getElementById('mobile-tab-prev');
   const nextBtn = document.getElementById('mobile-tab-next');
+  if (prevBtn) prevBtn.style.visibility = n <= 1 ? 'hidden' : '';
   if (nextBtn) nextBtn.style.visibility = n >= TOTAL_TABS ? 'hidden' : '';
 }
 

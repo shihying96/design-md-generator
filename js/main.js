@@ -485,7 +485,7 @@ function createPresetSwatches(preset) {
 
 /* ── Toolbar (Reset + Theme Toggle) ── */
 function initToolbar() {
-  const doReset = () => { applyPreset('blueprint'); };
+  const doReset = () => { applyPreset(currentPresetName); };
   document.getElementById('btn-reset').addEventListener('click', doReset);
   document.getElementById('btn-reset-mobile')?.addEventListener('click', doReset);
 }
